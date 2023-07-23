@@ -15,7 +15,7 @@ import com.ccp.exceptions.commons.CcpFlow;
 import com.ccp.jn.sync.common.business.NotifyError;
 
 @RestControllerAdvice
-public class JnExceptionHandler {
+public class JnSiteExceptionHandler {
 
 	private NotifyError notifyError = CcpDependencyInjection.getInjected(NotifyError.class);
 

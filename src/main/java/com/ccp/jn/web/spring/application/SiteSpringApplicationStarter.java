@@ -18,18 +18,18 @@ import com.ccp.jn.web.spring.controller.contactus.SaveContactUsController;
 import com.ccp.jn.web.spring.controller.login.ExistsLoginTokenController;
 import com.ccp.jn.web.spring.controller.login.resumes.crud.DownloadResumeToHisOwnerController;
 import com.ccp.jn.web.spring.controller.login.resumes.search.DownloadResumeToRecruiterController;
-import com.ccp.jn.web.spring.exceptions.handler.JnExceptionHandler;
+import com.ccp.jn.web.spring.exceptions.handler.JnSiteExceptionHandler;
 import com.jn.commons.JnBusinessEntity;
 
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
 @ComponentScan(basePackageClasses = {ExistsLoginTokenController.class, 
-		JnExceptionHandler.class,
+		JnSiteExceptionHandler.class,
 		SaveContactUsController.class
 		,DownloadResumeToHisOwnerController.class
 		,DownloadResumeToRecruiterController.class
 })
 @SpringBootApplication
-public class SpringApplicationStarter {
+public class SiteSpringApplicationStarter {
 
 	
 	public static void main(String[] args) {
@@ -45,7 +45,7 @@ public class SpringApplicationStarter {
 		);
 		JnBusinessEntity.loadEntitiesMetadata();
 
-		SpringApplication.run(SpringApplicationStarter.class, args);
+		SpringApplication.run(SiteSpringApplicationStarter.class, args);
 		System.out.println(CcpDependencyInjection.classes.size());
 	}
 
