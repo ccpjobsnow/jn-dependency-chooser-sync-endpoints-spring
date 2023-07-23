@@ -11,10 +11,11 @@ import com.ccp.jn.sync.login.controller.ExistsLoginToken;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/login/{email}/token", method = RequestMethod.HEAD)
+@RequestMapping(value = "/login/{email}/token")
 public class ExistsLoginTokenController {
 	private ExistsLoginToken injected = CcpDependencyInjection.getInjected(ExistsLoginToken.class);
 
+	@RequestMapping(method = RequestMethod.HEAD)
 	public void execute(@PathVariable("email")String email) {
 		this.injected.execute(email);
 	}

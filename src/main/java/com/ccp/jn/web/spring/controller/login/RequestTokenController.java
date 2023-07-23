@@ -17,6 +17,7 @@ public class RequestTokenController {
 	private RequestToken injected = CcpDependencyInjection.getInjected(RequestToken.class);
 
 	public void execute(@PathVariable("email") String email) {
+		
 		this.injected.execute(email);
 	}
 
