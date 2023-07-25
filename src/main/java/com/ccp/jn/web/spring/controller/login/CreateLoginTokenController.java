@@ -11,14 +11,14 @@ import com.ccp.jn.sync.login.controller.CreateLoginToken;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/login/{email}/token")
+@RequestMapping("/login/{email}/token/language/{language}")
 public class CreateLoginTokenController {
 	
-	private CreateLoginToken injected = CcpDependencyInjection.getInjected(CreateLoginToken.class);
+	private final CreateLoginToken injected = CcpDependencyInjection.getInjected(CreateLoginToken.class);
 
 	@PostMapping
-	public void execute(@PathVariable("email") String email) {
-		this.injected.execute(email);
+	public void execute(@PathVariable("email") String email, @PathVariable("language")String language) {
+		this.injected.execute(email, language);
 	}
 
 }
