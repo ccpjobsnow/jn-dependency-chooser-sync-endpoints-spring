@@ -19,7 +19,7 @@ import com.ccp.jn.sync.contactus.controller.SaveContactUs;
 @ResponseStatus(code = HttpStatus.ACCEPTED)
 public class SaveContactUsController {
 
-	private SaveContactUs injected = CcpDependencyInjection.getInjected(SaveContactUs.class);
+	private final SaveContactUs injected = CcpDependencyInjection.getInjected(SaveContactUs.class);
 
 	public void execute(@RequestBody Map<String, Object> json) {
 		this.injected.execute(json);

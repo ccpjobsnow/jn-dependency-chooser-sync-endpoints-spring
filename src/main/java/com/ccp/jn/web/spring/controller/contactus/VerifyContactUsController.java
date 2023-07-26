@@ -14,7 +14,7 @@ import com.ccp.jn.sync.contactus.controller.VerifyContactUs;
 @RequestMapping(value = "/contact-us/from/{sender}/subjectType/{subjectType}", method = RequestMethod.HEAD)
 public class VerifyContactUsController {
 	
-	private VerifyContactUs injected = CcpDependencyInjection.getInjected(VerifyContactUs.class);
+	private final VerifyContactUs injected = CcpDependencyInjection.getInjected(VerifyContactUs.class);
 	
 	public void execute(@PathVariable("sender") String sender, @PathVariable("subjectType") String subjectType){
 		this.injected.execute(sender, subjectType);

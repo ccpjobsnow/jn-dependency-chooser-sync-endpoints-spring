@@ -13,7 +13,7 @@ import com.ccp.jn.sync.login.controller.ExistsLoginToken;
 @RestController
 @RequestMapping(value = "/login/{email}/token")
 public class ExistsLoginTokenController {
-	private ExistsLoginToken injected = CcpDependencyInjection.getInjected(ExistsLoginToken.class);
+	private final ExistsLoginToken injected = CcpDependencyInjection.getInjected(ExistsLoginToken.class);
 
 	@RequestMapping(method = RequestMethod.HEAD)
 	public void execute(@PathVariable("email")String email) {

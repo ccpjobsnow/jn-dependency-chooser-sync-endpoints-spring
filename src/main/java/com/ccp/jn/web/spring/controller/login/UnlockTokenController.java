@@ -14,7 +14,7 @@ import com.ccp.jn.sync.login.controller.UnlockToken;
 @RequestMapping(value = "/login/{email}/token/lock", method = RequestMethod.DELETE)
 public class UnlockTokenController {
 
-	private UnlockToken injected = CcpDependencyInjection.getInjected(UnlockToken.class);
+	private final UnlockToken injected = CcpDependencyInjection.getInjected(UnlockToken.class);
 
 	public void execute(@PathVariable("email") String email) {
 		injected.execute(email);

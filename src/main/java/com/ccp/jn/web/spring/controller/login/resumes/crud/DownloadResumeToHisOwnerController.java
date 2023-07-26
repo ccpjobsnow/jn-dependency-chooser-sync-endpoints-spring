@@ -16,7 +16,7 @@ import com.ccp.jn.sync.resumes.crud.controller.DownloadResumeToHisOwner;
 @RequestMapping(value = "/cadidate/{email}/resume/view-type/{viewType}", method = RequestMethod.GET)
 public class DownloadResumeToHisOwnerController {
 
-	private DownloadResumeToHisOwner injected = CcpDependencyInjection.getInjected(DownloadResumeToHisOwner.class);
+	private final DownloadResumeToHisOwner injected = CcpDependencyInjection.getInjected(DownloadResumeToHisOwner.class);
 	
 	public Map<String, Object> execute(@PathVariable("email") String email, @PathVariable("viewType") String viewType){
 		Map<String, Object> execute = this.injected.execute(email, viewType);

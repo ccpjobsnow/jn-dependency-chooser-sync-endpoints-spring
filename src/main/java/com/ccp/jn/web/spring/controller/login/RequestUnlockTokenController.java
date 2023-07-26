@@ -13,7 +13,8 @@ import com.ccp.jn.sync.login.controller.RequestUnlockToken;
 @RestController
 @RequestMapping(value = "/login/{email}/token/lock", method = RequestMethod.HEAD)
 public class RequestUnlockTokenController {
-	private RequestUnlockToken injected = CcpDependencyInjection.getInjected(RequestUnlockToken.class);
+	
+	private final RequestUnlockToken injected = CcpDependencyInjection.getInjected(RequestUnlockToken.class);
 
 	public void execute(@PathVariable("email") String email) {
 		this.injected.execute(email);

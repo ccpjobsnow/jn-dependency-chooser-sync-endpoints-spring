@@ -17,7 +17,7 @@ import com.ccp.jn.sync.resumes.searchs.controller.GetResumesData;
 @RequestMapping(value = "resumes/{searchType}", method = RequestMethod.GET)
 public class GetResumesDataController {
 
-	private GetResumesData injected = CcpDependencyInjection.getInjected(GetResumesData.class);
+	private final GetResumesData injected = CcpDependencyInjection.getInjected(GetResumesData.class);
 
 	public Map<String, Object> execute(@PathVariable("searchType") String searchType, @RequestBody Map<String, Object> requestBody){
 		Map<String, Object> execute = this.injected.execute(searchType, requestBody);

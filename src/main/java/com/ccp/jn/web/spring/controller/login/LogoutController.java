@@ -14,7 +14,7 @@ import com.ccp.jn.sync.login.controller.Logout;
 @RequestMapping(value = "/login/{email}", method = RequestMethod.DELETE)
 public class LogoutController {
 
-	private Logout injected = CcpDependencyInjection.getInjected(Logout.class);
+	private final Logout injected = CcpDependencyInjection.getInjected(Logout.class);
 
 	public void execute(@PathVariable("email") String email) {
 		this.injected.execute(email);

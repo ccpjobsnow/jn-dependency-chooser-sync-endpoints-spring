@@ -20,7 +20,7 @@ import com.ccp.jn.sync.login.controller.Login;
 @RequestMapping(value = "/login/{email}", method = RequestMethod.POST)
 public class LoginController {
 	
-	private Login injected = CcpDependencyInjection.getInjected(Login.class);
+	private final Login injected = CcpDependencyInjection.getInjected(Login.class);
 
 	public Map<String, Object> execute(HttpServletRequest request, @PathVariable("email") String email){
 		String remoteAddr = request.getRemoteAddr();

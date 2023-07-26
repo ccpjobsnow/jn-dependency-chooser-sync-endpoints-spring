@@ -17,7 +17,7 @@ import com.ccp.jn.sync.resumes.crud.controller.GetRecruiterDomains;
 @RequestMapping(value = "recruiters/domains/{firstLetters}", method = RequestMethod.GET)
 public class GetRecruiterDomainsController {
 	
-	private GetRecruiterDomains injected = CcpDependencyInjection.getInjected(GetRecruiterDomains.class);
+	private final GetRecruiterDomains injected = CcpDependencyInjection.getInjected(GetRecruiterDomains.class);
 	
 	public Map<String, Object> execute(@PathVariable("firstLetters") String firstLetters){
 		CcpMapDecorator execute = this.injected.execute(firstLetters);

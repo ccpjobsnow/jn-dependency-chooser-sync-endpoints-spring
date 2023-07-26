@@ -18,7 +18,7 @@ import com.ccp.jn.sync.login.controller.SaveWeakPassword;
 @RequestMapping(value = "/login/{email}/password/weak", method = RequestMethod.POST)
 public class SaveWeakPasswordController {
 	
-	private SaveWeakPassword injected = CcpDependencyInjection.getInjected(SaveWeakPassword.class);
+	private final SaveWeakPassword injected = CcpDependencyInjection.getInjected(SaveWeakPassword.class);
 
 	public void execute(@PathVariable("email") String email, @RequestBody Map<String, Object> requestBody) {
 		this.injected.execute(new CcpMapDecorator(requestBody).put("email", email));

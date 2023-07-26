@@ -14,7 +14,7 @@ import com.ccp.jn.sync.login.controller.RequestTokenAgain;
 @RequestMapping(value = "/login/{email}/token/request", method = RequestMethod.PATCH)
 public class RequestTokenAgainController {
 
-	private RequestTokenAgain injected = CcpDependencyInjection.getInjected(RequestTokenAgain.class);
+	private final RequestTokenAgain injected = CcpDependencyInjection.getInjected(RequestTokenAgain.class);
 	
 	public void execute(@PathVariable("email") String email) {
 		this.injected.execute(email);

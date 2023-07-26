@@ -16,7 +16,7 @@ import com.ccp.jn.sync.resumes.searchs.controller.DownloadResumeToRecruiter;
 @RequestMapping(value = "/recruiters/{recruiter}/resumes/{resume}/view-type/{viewType}", method = RequestMethod.GET)
 public class DownloadResumeToRecruiterController {
 
-	private DownloadResumeToRecruiter injected = CcpDependencyInjection.getInjected(DownloadResumeToRecruiter.class);
+	private final DownloadResumeToRecruiter injected = CcpDependencyInjection.getInjected(DownloadResumeToRecruiter.class);
 
 	public Map<String, Object> execute(@PathVariable("resume") String resume, @PathVariable("recruiter") String recruiter, @PathVariable("viewType") String viewType) {
 		

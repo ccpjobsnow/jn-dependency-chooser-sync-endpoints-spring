@@ -16,7 +16,7 @@ import com.ccp.jn.sync.resumes.crud.controller.SaveCandidateData;
 @RequestMapping(value = "resumes/", method = RequestMethod.POST)
 public class SaveCandidateDataController {
 
-	private SaveCandidateData injected = CcpDependencyInjection.getInjected(SaveCandidateData.class);
+	private final SaveCandidateData injected = CcpDependencyInjection.getInjected(SaveCandidateData.class);
 
 	public void execute(@RequestBody Map<String, Object> form) {
 		this.injected.execute(form);

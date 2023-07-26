@@ -17,7 +17,7 @@ import com.ccp.jn.sync.resumes.searchs.controller.RequestResumesSearch;
 @RequestMapping(value = "resumes/{searchType}/recruiter/{recruiter}", method = RequestMethod.POST)
 public class RequestResumesSearchController {
 
-	private RequestResumesSearch injected = CcpDependencyInjection.getInjected(RequestResumesSearch.class);
+	private final RequestResumesSearch injected = CcpDependencyInjection.getInjected(RequestResumesSearch.class);
 
 	public Map<String, Object> execute(@PathVariable("recruiter") String recruiter, @PathVariable("searchType") String searchType, @RequestBody Map<String, Object> requestBody){
 		Map<String, Object> execute = this.injected.execute(recruiter, searchType, requestBody);

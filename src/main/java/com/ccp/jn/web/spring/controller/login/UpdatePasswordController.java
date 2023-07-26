@@ -18,7 +18,7 @@ import com.ccp.jn.sync.login.controller.UpdatePassword;
 @RequestMapping(value = "/login/{email}/password", method = RequestMethod.POST)
 public class UpdatePasswordController {
 	
-	private UpdatePassword injected = CcpDependencyInjection.getInjected(UpdatePassword.class);
+	private final UpdatePassword injected = CcpDependencyInjection.getInjected(UpdatePassword.class);
 
 	public void execute(@PathVariable("email") String email, @RequestBody Map<String, Object> requestBody) {
 		this.injected.execute(new CcpMapDecorator(requestBody).put("email", email));
