@@ -19,7 +19,7 @@ import com.ccp.jn.web.spring.controller.login.ExistsLoginTokenController;
 import com.ccp.jn.web.spring.controller.login.resumes.crud.DownloadResumeToHisOwnerController;
 import com.ccp.jn.web.spring.controller.login.resumes.search.DownloadResumeToRecruiterController;
 import com.ccp.jn.web.spring.exceptions.handler.JnSiteExceptionHandler;
-import com.jn.commons.JnBusinessEntity;
+import com.jn.commons.JnEntity;
 
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
 @ComponentScan(basePackageClasses = {ExistsLoginTokenController.class, 
@@ -43,7 +43,7 @@ public class SiteSpringApplicationStarter {
 				,new Http()
 				,new Crud()
 		);
-		JnBusinessEntity.loadEntitiesMetadata();
+		JnEntity.loadEntitiesMetadata();
 
 		SpringApplication.run(SiteSpringApplicationStarter.class, args);
 		System.out.println(CcpDependencyInjection.classes.size());
