@@ -25,8 +25,8 @@ public class LoginController {
 	public Map<String, Object> execute(HttpServletRequest request, @PathVariable("email") String email){
 		String remoteAddr = request.getRemoteAddr();
 		Map<String, Object> values = new CcpMapDecorator().put("ip", remoteAddr).put("email", email).content;
-		Map<String, Object> execute = this.injected.execute(values);
-		return execute;
+		CcpMapDecorator execute = this.injected.execute(values);
+		return execute.content;
 	}
 	
 }

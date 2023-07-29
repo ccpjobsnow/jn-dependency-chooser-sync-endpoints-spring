@@ -20,7 +20,9 @@ public class UpdatePasswordController {
 	
 	private final UpdatePassword injected = CcpDependencyInjection.getInjected(UpdatePassword.class);
 
-	public void execute(@PathVariable("email") String email, @RequestBody Map<String, Object> requestBody) {
-		this.injected.execute(new CcpMapDecorator(requestBody).put("email", email));
+	public Map<String, Object> execute(@PathVariable("email") String email, @RequestBody Map<String, Object> requestBody) {
+		CcpMapDecorator put = new CcpMapDecorator(requestBody).put("email", email);
+		CcpMapDecorator execute = this.injected.execute(put);
+		return execute.content;
 	}
 }

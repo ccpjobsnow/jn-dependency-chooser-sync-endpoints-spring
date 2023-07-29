@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.ccp.decorators.CcpMapDecorator;
 import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.exceptions.commons.CcpFlow;
+import com.ccp.exceptions.mensageria.sender.MensageriaTopicGenericError;
 import com.ccp.jn.sync.common.business.NotifyError;
 
 @RestControllerAdvice
@@ -28,7 +30,11 @@ public class JnSiteExceptionHandler {
 
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler({ Throwable.class })
-	public void handle(Throwable e) {
-		this.notifyError.execute(e);
+	public CcpMapDecorator handle(Throwable e) {
+		return this.notifyError.execute(e);
+	}
+	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler({ MensageriaTopicGenericError.class })
+	public void handle(MensageriaTopicGenericError e) {
 	}
 }

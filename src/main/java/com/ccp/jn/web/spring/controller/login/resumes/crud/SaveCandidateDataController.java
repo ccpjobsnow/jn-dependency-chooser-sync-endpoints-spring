@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccp.decorators.CcpMapDecorator;
 import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.resumes.crud.controller.SaveCandidateData;
 
@@ -18,7 +19,8 @@ public class SaveCandidateDataController {
 
 	private final SaveCandidateData injected = CcpDependencyInjection.getInjected(SaveCandidateData.class);
 
-	public void execute(@RequestBody Map<String, Object> form) {
-		this.injected.execute(form);
+	public Map<String, Object> execute(@RequestBody Map<String, Object> form) {
+		CcpMapDecorator execute = this.injected.execute(form);
+		return execute.content;
 	}
 }

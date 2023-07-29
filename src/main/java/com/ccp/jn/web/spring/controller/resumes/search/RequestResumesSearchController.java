@@ -1,4 +1,4 @@
-package com.ccp.jn.web.spring.controller.login.resumes.search;
+package com.ccp.jn.web.spring.controller.resumes.search;
 
 import java.util.Map;
 
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccp.decorators.CcpMapDecorator;
 import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.resumes.searchs.controller.RequestResumesSearch;
 
@@ -20,8 +21,8 @@ public class RequestResumesSearchController {
 	private final RequestResumesSearch injected = CcpDependencyInjection.getInjected(RequestResumesSearch.class);
 
 	public Map<String, Object> execute(@PathVariable("recruiter") String recruiter, @PathVariable("searchType") String searchType, @RequestBody Map<String, Object> requestBody){
-		Map<String, Object> execute = this.injected.execute(recruiter, searchType, requestBody);
-		return execute;
+		CcpMapDecorator execute = this.injected.execute(recruiter, searchType, requestBody);
+		return execute.content;
 	}
 	
 }

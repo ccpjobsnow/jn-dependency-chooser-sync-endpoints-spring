@@ -1,5 +1,7 @@
 package com.ccp.jn.web.spring.controller.login;
 
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +19,8 @@ public class CreateLoginTokenController {
 	private final CreateLoginToken injected = CcpDependencyInjection.getInjected(CreateLoginToken.class);
 
 	@PostMapping
-	public void execute(@PathVariable("email") String email, @PathVariable("language")String language) {
-		this.injected.execute(email, language);
+	public Map<String, Object> execute(@PathVariable("email") String email, @PathVariable("language")String language) {
+		return this.injected.execute(email, language).content;
 	}
 
 }

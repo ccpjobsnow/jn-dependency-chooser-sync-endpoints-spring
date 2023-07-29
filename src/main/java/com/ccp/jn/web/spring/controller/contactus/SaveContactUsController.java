@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccp.decorators.CcpMapDecorator;
 import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.contactus.controller.SaveContactUs;
 
@@ -21,8 +22,9 @@ public class SaveContactUsController {
 
 	private final SaveContactUs injected = CcpDependencyInjection.getInjected(SaveContactUs.class);
 
-	public void execute(@RequestBody Map<String, Object> json) {
-		this.injected.execute(json);
+	public Map<String, Object> execute(@RequestBody Map<String, Object> json) {
+		CcpMapDecorator execute = this.injected.execute(json);
+		return execute.content;
 	}
 	
 }
