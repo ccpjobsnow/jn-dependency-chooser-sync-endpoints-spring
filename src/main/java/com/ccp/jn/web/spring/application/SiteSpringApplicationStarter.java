@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.implementations.cache.gcp.memcache.Cache;
-import com.ccp.implementations.db.crud.elasticsearch.Crud;
+import com.ccp.implementations.db.dao.elasticsearch.Dao;
 import com.ccp.implementations.db.utils.elasticsearch.DbUtils;
 import com.ccp.implementations.file.bucket.gcp.FileBucket;
 import com.ccp.implementations.http.apache.mime.Http;
@@ -41,7 +41,7 @@ public class SiteSpringApplicationStarter {
 				,new DbUtils()
 				,new Cache()
 				,new Http()
-				,new Crud()
+				,new Dao()
 		);
 		JnEntity.loadEntitiesMetadata();
 
