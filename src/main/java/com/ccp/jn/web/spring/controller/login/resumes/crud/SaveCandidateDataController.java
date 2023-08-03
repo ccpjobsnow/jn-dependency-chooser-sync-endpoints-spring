@@ -20,7 +20,7 @@ public class SaveCandidateDataController {
 	private final SaveCandidateData injected = CcpDependencyInjection.getInjected(SaveCandidateData.class);
 
 	public Map<String, Object> execute(@RequestBody Map<String, Object> form) {
-		CcpMapDecorator execute = this.injected.execute(form);
+		CcpMapDecorator execute = this.injected.apply(form);
 		return execute.content;
 	}
 }

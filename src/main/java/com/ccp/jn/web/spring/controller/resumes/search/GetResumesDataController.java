@@ -21,7 +21,7 @@ public class GetResumesDataController {
 	private final GetResumesData injected = CcpDependencyInjection.getInjected(GetResumesData.class);
 
 	public Map<String, Object> execute(@PathVariable("searchType") String searchType, @RequestBody Map<String, Object> requestBody){
-		CcpMapDecorator execute = this.injected.execute(searchType, requestBody);
+		CcpMapDecorator execute = this.injected.apply(searchType, requestBody);
 		return execute.content;
 	}
 }

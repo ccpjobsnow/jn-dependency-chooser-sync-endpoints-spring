@@ -21,7 +21,7 @@ public class GetAsyncTaskByIdController {
 	
 	@GetMapping
 	public Map<String, Object> execute(@PathVariable("asyncTaskId") String asyncTaskId){
-		CcpMapDecorator execute = this.injected.execute(asyncTaskId);
+		CcpMapDecorator execute = this.injected.apply(asyncTaskId);
 		return execute.content;
 	}
 	

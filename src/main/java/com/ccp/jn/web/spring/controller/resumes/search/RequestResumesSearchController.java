@@ -21,7 +21,7 @@ public class RequestResumesSearchController {
 	private final RequestResumesSearch injected = CcpDependencyInjection.getInjected(RequestResumesSearch.class);
 
 	public Map<String, Object> execute(@PathVariable("recruiter") String recruiter, @PathVariable("searchType") String searchType, @RequestBody Map<String, Object> requestBody){
-		CcpMapDecorator execute = this.injected.execute(recruiter, searchType, requestBody);
+		CcpMapDecorator execute = this.injected.apply(recruiter, searchType, requestBody);
 		return execute.content;
 	}
 	

@@ -20,7 +20,7 @@ public class GetRecruiterDomainsController {
 	private final GetRecruiterDomains injected = CcpDependencyInjection.getInjected(GetRecruiterDomains.class);
 	
 	public Map<String, Object> execute(@PathVariable("firstLetters") String firstLetters){
-		CcpMapDecorator execute = this.injected.execute(firstLetters);
+		CcpMapDecorator execute = this.injected.apply(firstLetters);
 		return execute.content;
 	}
 }

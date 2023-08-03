@@ -31,7 +31,7 @@ public class JnSiteExceptionHandler {
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler({ Throwable.class })
 	public CcpMapDecorator handle(Throwable e) {
-		return this.notifyError.execute(e);
+		return this.notifyError.apply(e);
 	}
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler({ MensageriaTopicGenericError.class })
