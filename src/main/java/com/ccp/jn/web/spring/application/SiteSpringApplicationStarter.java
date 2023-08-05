@@ -20,6 +20,7 @@ import com.ccp.jn.web.spring.controller.login.resumes.crud.DownloadResumeToHisOw
 import com.ccp.jn.web.spring.controller.resumes.search.DownloadResumeToRecruiterController;
 import com.ccp.jn.web.spring.exceptions.handler.JnSiteExceptionHandler;
 import com.jn.commons.JnEntity;
+import com.jn.commons.JnTopic;
 
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
 @ComponentScan(basePackageClasses = {ExistsLoginTokenController.class, 
@@ -44,6 +45,7 @@ public class SiteSpringApplicationStarter {
 				,new Dao()
 		);
 		JnEntity.loadEntitiesMetadata();
+		JnTopic.loadAllTopics();
 
 		SpringApplication.run(SiteSpringApplicationStarter.class, args);
 		System.out.println(CcpDependencyInjection.classes.size());
