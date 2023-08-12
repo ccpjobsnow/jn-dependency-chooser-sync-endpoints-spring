@@ -12,6 +12,7 @@ import com.ccp.implementations.db.dao.elasticsearch.Dao;
 import com.ccp.implementations.db.utils.elasticsearch.DbUtils;
 import com.ccp.implementations.file.bucket.gcp.FileBucket;
 import com.ccp.implementations.http.apache.mime.Http;
+import com.ccp.implementations.main.authentication.MainAuthentication;
 import com.ccp.implementations.mensageria.sender.gcp.pubsub.MensageriaSender;
 import com.ccp.implementations.password.mindrot.Password;
 import com.ccp.jn.web.spring.controller.contactus.SaveContactUsController;
@@ -36,7 +37,8 @@ public class SiteSpringApplicationStarter {
 	public static void main(String[] args) {
 		CcpDependencyInjection.loadAllImplementationsProviders
 		(
-				new MensageriaSender()
+				new MainAuthentication()
+				,new MensageriaSender()
 				,new FileBucket()
 				,new Password()
 				,new DbUtils()
