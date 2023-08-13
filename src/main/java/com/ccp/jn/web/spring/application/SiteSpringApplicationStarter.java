@@ -15,6 +15,7 @@ import com.ccp.implementations.http.apache.mime.Http;
 import com.ccp.implementations.main.authentication.MainAuthentication;
 import com.ccp.implementations.mensageria.sender.gcp.pubsub.MensageriaSender;
 import com.ccp.implementations.password.mindrot.Password;
+import com.ccp.jn.web.spring.controller.async.tasks.GetAsyncTaskByIdController;
 import com.ccp.jn.web.spring.controller.contactus.SaveContactUsController;
 import com.ccp.jn.web.spring.controller.login.ExistsLoginTokenController;
 import com.ccp.jn.web.spring.controller.login.resumes.crud.DownloadResumeToHisOwnerController;
@@ -28,6 +29,7 @@ import com.jn.commons.JnTopic;
 		JnSiteExceptionHandler.class,
 		SaveContactUsController.class
 		,DownloadResumeToHisOwnerController.class
+		,GetAsyncTaskByIdController.class
 		,DownloadResumeToRecruiterController.class
 })
 @SpringBootApplication

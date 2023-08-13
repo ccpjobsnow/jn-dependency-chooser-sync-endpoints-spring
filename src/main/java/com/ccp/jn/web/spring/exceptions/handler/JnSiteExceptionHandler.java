@@ -36,5 +36,6 @@ public class JnSiteExceptionHandler {
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler({ MensageriaTopicGenericError.class })
 	public void handle(MensageriaTopicGenericError e) {
+		System.out.println(e);
 	}
 }

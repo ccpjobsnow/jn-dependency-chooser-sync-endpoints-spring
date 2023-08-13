@@ -14,12 +14,18 @@ import com.ccp.jn.sync.resumes.tasks.controller.GetAsyncTaskById;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/async/task/{asyncTaskId}")
+@RequestMapping(value = "/async/task")
 public class GetAsyncTaskByIdController {
 	
 	private final GetAsyncTaskById injected = CcpDependencyInjection.getInjected(GetAsyncTaskById.class);
 	
 	@GetMapping
+	
+	public String oi() {
+		return "olá mundo";
+	}
+	
+	@GetMapping("/{asyncTaskId}")
 	public Map<String, Object> execute(@PathVariable("asyncTaskId") String asyncTaskId){
 		CcpMapDecorator execute = this.injected.apply(asyncTaskId);
 		return execute.content;
