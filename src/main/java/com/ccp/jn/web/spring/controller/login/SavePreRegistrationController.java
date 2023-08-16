@@ -15,14 +15,16 @@ import com.ccp.jn.sync.login.controller.SavePreRegistration;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/login{email}/pre-registration")
+@RequestMapping(value = "/login/{email}/pre-registration")
 public class SavePreRegistrationController {
 
 	private final SavePreRegistration injected = CcpDependencyInjection.getInjected(SavePreRegistration.class);
 
 	@PostMapping
 	public void execute(@PathVariable("email") String email,@RequestBody Map<String, Object> requestBody) {
-		this.injected.execute(new CcpMapDecorator(requestBody).put("email", email));
+		CcpMapDecorator cmd = new CcpMapDecorator(requestBody);
+		CcpMapDecorator put = cmd.put("email", email);
+		this.injected.execute(put);
 	}
 	
 }

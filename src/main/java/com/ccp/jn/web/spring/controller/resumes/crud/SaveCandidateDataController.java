@@ -1,4 +1,4 @@
-package com.ccp.jn.web.spring.controller.login.resumes.crud;
+package com.ccp.jn.web.spring.controller.resumes.crud;
 
 import java.util.Map;
 
