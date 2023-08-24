@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpMapDecorator;
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.resumes.crud.controller.DownloadResumeToHisOwner;
 
 @CrossOrigin
@@ -17,7 +16,7 @@ import com.ccp.jn.sync.resumes.crud.controller.DownloadResumeToHisOwner;
 @RequestMapping(value = "/cadidate/{email}/resume/view-type/{viewType}", method = RequestMethod.GET)
 public class DownloadResumeToHisOwnerController {
 
-	private final DownloadResumeToHisOwner injected = CcpDependencyInjection.getInjected(DownloadResumeToHisOwner.class);
+	private final DownloadResumeToHisOwner injected = new DownloadResumeToHisOwner();
 	
 	public Map<String, Object> execute(@PathVariable("email") String email, @PathVariable("viewType") String viewType){
 		CcpMapDecorator execute = this.injected.execute(email, viewType);

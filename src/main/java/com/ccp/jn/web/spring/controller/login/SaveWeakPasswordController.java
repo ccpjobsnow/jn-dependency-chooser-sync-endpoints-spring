@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpMapDecorator;
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.login.controller.SaveWeakPassword;
 
 @CrossOrigin
@@ -18,7 +17,7 @@ import com.ccp.jn.sync.login.controller.SaveWeakPassword;
 @RequestMapping(value = "/login/{email}/password/weak", method = RequestMethod.POST)
 public class SaveWeakPasswordController {
 	
-	private final SaveWeakPassword injected = CcpDependencyInjection.getInjected(SaveWeakPassword.class);
+	private final SaveWeakPassword injected = new SaveWeakPassword();
 
 	public void execute(@PathVariable("email") String email, @RequestBody Map<String, Object> requestBody) {
 		this.injected.execute(new CcpMapDecorator(requestBody).put("email", email));

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpMapDecorator;
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.login.controller.UnlockToken;
 
 @CrossOrigin
@@ -17,7 +16,7 @@ import com.ccp.jn.sync.login.controller.UnlockToken;
 @RequestMapping(value = "/login/{email}/token/lock", method = RequestMethod.DELETE)
 public class UnlockTokenController {
 
-	private final UnlockToken injected = CcpDependencyInjection.getInjected(UnlockToken.class);
+	private final UnlockToken injected = new UnlockToken();
 
 	public Map<String, Object> execute(@PathVariable("email") String email) {
 		CcpMapDecorator execute = this.injected.execute(email);

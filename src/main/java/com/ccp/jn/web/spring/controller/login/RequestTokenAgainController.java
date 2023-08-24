@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpMapDecorator;
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.login.controller.RequestTokenAgain;
 
 @CrossOrigin
@@ -17,7 +16,7 @@ import com.ccp.jn.sync.login.controller.RequestTokenAgain;
 @RequestMapping(value = "/login/{email}/token/request", method = RequestMethod.PATCH)
 public class RequestTokenAgainController {
 
-	private final RequestTokenAgain injected = CcpDependencyInjection.getInjected(RequestTokenAgain.class);
+	private final RequestTokenAgain injected = new RequestTokenAgain();
 	
 	public Map<String, Object> execute(@PathVariable("email") String email) {
 		CcpMapDecorator execute = this.injected.execute(email);

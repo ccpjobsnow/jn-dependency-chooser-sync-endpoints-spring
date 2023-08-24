@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpMapDecorator;
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.login.controller.UpdatePassword;
 
 @CrossOrigin
@@ -18,7 +17,7 @@ import com.ccp.jn.sync.login.controller.UpdatePassword;
 @RequestMapping(value = "/login/{email}/password")
 public class UpdatePasswordController {
 	
-	private final UpdatePassword injected = CcpDependencyInjection.getInjected(UpdatePassword.class);
+	private final UpdatePassword injected = new UpdatePassword();
 	
 	@PostMapping
 	public Map<String, Object> execute(@PathVariable("email") String email, @RequestBody Map<String, Object> requestBody) {

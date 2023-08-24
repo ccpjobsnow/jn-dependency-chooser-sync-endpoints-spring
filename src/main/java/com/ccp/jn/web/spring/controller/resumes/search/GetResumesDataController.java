@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpMapDecorator;
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.resumes.searchs.controller.GetResumesData;
 
 @CrossOrigin
@@ -18,7 +17,7 @@ import com.ccp.jn.sync.resumes.searchs.controller.GetResumesData;
 @RequestMapping(value = "resumes/{searchType}", method = RequestMethod.GET)
 public class GetResumesDataController {
 
-	private final GetResumesData injected = CcpDependencyInjection.getInjected(GetResumesData.class);
+	private final GetResumesData injected =new GetResumesData();
 
 	public Map<String, Object> execute(@PathVariable("searchType") String searchType, @RequestBody Map<String, Object> requestBody){
 		CcpMapDecorator execute = this.injected.apply(searchType, requestBody);

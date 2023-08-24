@@ -6,14 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.login.controller.ExistsLoginToken;
 
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/login/{email}/token")
 public class ExistsLoginTokenController {
-	private final ExistsLoginToken injected = CcpDependencyInjection.getInjected(ExistsLoginToken.class);
+	private final ExistsLoginToken injected = new ExistsLoginToken();
 
 	@RequestMapping(method = RequestMethod.HEAD)
 	public void execute(@PathVariable("email")String email) {

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpMapDecorator;
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.resumes.crud.controller.GetRecruiterDomains;
 
 @CrossOrigin
@@ -17,7 +16,7 @@ import com.ccp.jn.sync.resumes.crud.controller.GetRecruiterDomains;
 @RequestMapping(value = "recruiters/domains/{firstLetters}", method = RequestMethod.GET)
 public class GetRecruiterDomainsController {
 	
-	private final GetRecruiterDomains injected = CcpDependencyInjection.getInjected(GetRecruiterDomains.class);
+	private final GetRecruiterDomains injected = new GetRecruiterDomains();
 	
 	public Map<String, Object> execute(@PathVariable("firstLetters") String firstLetters){
 		CcpMapDecorator execute = this.injected.apply(firstLetters);

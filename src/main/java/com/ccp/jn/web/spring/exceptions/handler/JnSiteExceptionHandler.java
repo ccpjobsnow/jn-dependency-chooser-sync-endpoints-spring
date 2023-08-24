@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.ccp.decorators.CcpMapDecorator;
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.exceptions.commons.CcpFlow;
 import com.ccp.exceptions.mensageria.sender.MensageriaTopicGenericError;
 import com.ccp.jn.sync.common.business.NotifyError;
@@ -19,7 +18,7 @@ import com.ccp.jn.sync.common.business.NotifyError;
 @RestControllerAdvice
 public class JnSiteExceptionHandler {
 
-	private NotifyError notifyError = CcpDependencyInjection.getInjected(NotifyError.class);
+	private NotifyError notifyError = new NotifyError();
 
 	@ExceptionHandler({ CcpFlow.class })
 	@ResponseBody

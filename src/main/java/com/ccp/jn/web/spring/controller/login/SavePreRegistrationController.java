@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpMapDecorator;
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.login.controller.SavePreRegistration;
 
 @CrossOrigin
@@ -18,7 +17,7 @@ import com.ccp.jn.sync.login.controller.SavePreRegistration;
 @RequestMapping(value = "/login/{email}/pre-registration")
 public class SavePreRegistrationController {
 
-	private final SavePreRegistration injected = CcpDependencyInjection.getInjected(SavePreRegistration.class);
+	private final SavePreRegistration injected = new SavePreRegistration();
 
 	@PostMapping
 	public void execute(@PathVariable("email") String email,@RequestBody Map<String, Object> requestBody) {

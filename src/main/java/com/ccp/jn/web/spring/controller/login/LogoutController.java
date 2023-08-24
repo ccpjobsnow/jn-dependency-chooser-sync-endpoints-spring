@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.login.controller.Logout;
 
 @CrossOrigin
@@ -14,7 +13,7 @@ import com.ccp.jn.sync.login.controller.Logout;
 @RequestMapping(value = "/login/{email}", method = RequestMethod.DELETE)
 public class LogoutController {
 
-	private final Logout injected = CcpDependencyInjection.getInjected(Logout.class);
+	private final Logout injected = new Logout();
 
 	public void execute(@PathVariable("email") String email) {
 		this.injected.execute(email);

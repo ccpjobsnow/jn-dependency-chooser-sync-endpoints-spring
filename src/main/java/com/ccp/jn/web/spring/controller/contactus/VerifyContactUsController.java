@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.contactus.controller.VerifyContactUs;
 
 @CrossOrigin
@@ -14,7 +13,7 @@ import com.ccp.jn.sync.contactus.controller.VerifyContactUs;
 @RequestMapping(value = "/contact-us/from/{sender}/subjectType/{subjectType}", method = RequestMethod.HEAD)
 public class VerifyContactUsController {
 	
-	private final VerifyContactUs injected = CcpDependencyInjection.getInjected(VerifyContactUs.class);
+	private final VerifyContactUs injected = new VerifyContactUs();
 	
 	public void execute(@PathVariable("sender") String sender, @PathVariable("subjectType") String subjectType){
 		this.injected.execute(sender, subjectType);

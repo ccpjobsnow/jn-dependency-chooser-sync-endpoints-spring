@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpMapDecorator;
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.contactus.controller.SaveContactUs;
 
 @CrossOrigin
@@ -20,7 +19,7 @@ import com.ccp.jn.sync.contactus.controller.SaveContactUs;
 @ResponseStatus(code = HttpStatus.ACCEPTED)
 public class SaveContactUsController {
 
-	private final SaveContactUs injected = CcpDependencyInjection.getInjected(SaveContactUs.class);
+	private final SaveContactUs injected = new SaveContactUs();
 
 	public Map<String, Object> execute(@RequestBody Map<String, Object> json) {
 		CcpMapDecorator execute = this.injected.execute(json);

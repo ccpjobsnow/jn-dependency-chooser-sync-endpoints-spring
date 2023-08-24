@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.jn.sync.login.controller.CreateLoginToken;
 
 @CrossOrigin
@@ -16,7 +15,7 @@ import com.ccp.jn.sync.login.controller.CreateLoginToken;
 @RequestMapping("/login/{email}/token/language/{language}")
 public class CreateLoginTokenController {
 	
-	private final CreateLoginToken injected = CcpDependencyInjection.getInjected(CreateLoginToken.class);
+	private final CreateLoginToken injected = new CreateLoginToken();
 
 	@PostMapping
 	public Map<String, Object> execute(@PathVariable("email") String email, @PathVariable("language")String language) {
