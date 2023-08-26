@@ -32,7 +32,7 @@ import com.ccp.jn.web.spring.exceptions.handler.JnSiteExceptionHandler;
 		,DownloadResumeToRecruiterController.class
 })
 @SpringBootApplication
-public class SiteSpringApplicationStarter {
+public class JnSiteSpringApplicationStarter {
 
 	
 	public static void main(String[] args) {
@@ -49,7 +49,7 @@ public class SiteSpringApplicationStarter {
 				,new Dao()
 		);
 
-		SpringApplication.run(SiteSpringApplicationStarter.class, args);
+		SpringApplication.run(JnSiteSpringApplicationStarter.class, args);
 	}
 
 	
