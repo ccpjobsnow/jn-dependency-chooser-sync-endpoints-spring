@@ -15,6 +15,7 @@ import com.ccp.implementations.http.apache.mime.Http;
 import com.ccp.implementations.main.authentication.MainAuthentication;
 import com.ccp.implementations.mensageria.sender.gcp.pubsub.MensageriaSender;
 import com.ccp.implementations.password.mindrot.Password;
+import com.ccp.implementations.text.extractor.apache.tika.JsonHandler;
 import com.ccp.jn.web.spring.controller.async.tasks.GetAsyncTaskByIdController;
 import com.ccp.jn.web.spring.controller.contactus.SaveContactUsController;
 import com.ccp.jn.web.spring.controller.login.ExistsLoginTokenController;
@@ -39,6 +40,7 @@ public class SiteSpringApplicationStarter {
 		(
 				new MainAuthentication()
 				,new MensageriaSender()
+				,new JsonHandler()
 				,new FileBucket()
 				,new Password()
 				,new DbUtils()
