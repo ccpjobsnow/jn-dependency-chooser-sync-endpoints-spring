@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.ccp.dependency.injection.CcpDependencyInjection;
+import com.ccp.dependency.injection.CcpInstanceInjection;
 import com.ccp.implementations.cache.gcp.memcache.Cache;
 import com.ccp.implementations.db.dao.elasticsearch.Dao;
 import com.ccp.implementations.db.utils.elasticsearch.DbUtils;
@@ -21,8 +21,6 @@ import com.ccp.jn.web.spring.controller.login.ExistsLoginTokenController;
 import com.ccp.jn.web.spring.controller.resumes.crud.DownloadResumeToHisOwnerController;
 import com.ccp.jn.web.spring.controller.resumes.search.DownloadResumeToRecruiterController;
 import com.ccp.jn.web.spring.exceptions.handler.JnSiteExceptionHandler;
-import com.jn.commons.JnEntity;
-import com.jn.commons.JnTopic;
 
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
 @ComponentScan(basePackageClasses = {ExistsLoginTokenController.class, 
@@ -37,7 +35,7 @@ public class SiteSpringApplicationStarter {
 
 	
 	public static void main(String[] args) {
-		CcpDependencyInjection.loadAllImplementationsProviders
+		CcpInstanceInjection.loadAllInstances
 		(
 				new MainAuthentication()
 				,new MensageriaSender()
@@ -45,14 +43,11 @@ public class SiteSpringApplicationStarter {
 				,new Password()
 				,new DbUtils()
 				,new Cache()
-				,new Http()
+				,new Http() 
 				,new Dao()
 		);
-		JnEntity.loadEntitiesMetadata();
-		JnTopic.loadAllTopics();
 
 		SpringApplication.run(SiteSpringApplicationStarter.class, args);
-		System.out.println(CcpDependencyInjection.classes.size());
 	}
 
 	
