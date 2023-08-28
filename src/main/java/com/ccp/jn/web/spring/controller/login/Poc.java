@@ -3,18 +3,18 @@ package com.ccp.jn.web.spring.controller.login;
 import com.ccp.decorators.CcpHashDecorator;
 import com.ccp.decorators.CcpStringDecorator;
 
-public class Teste {
+public class Poc {
 	
 	public static void main(String[] args) {
-		String str = "ABCDEFGHIJKLMNOPQRSTUVWX";
+		String str = "ABCDEFGHIJKLMNOPQRSTUVWXZ01234567890!@#$%&*()_+=";
 		
 		CcpStringDecorator csd = new CcpStringDecorator(str);
-		String generateToken = csd.text().generateToken(50000000);
+		String generateToken = csd.text().generateToken(50);
 		
 		CcpHashDecorator hash = new CcpStringDecorator(generateToken).hash();
 
 		long currentTimeMillis = System.currentTimeMillis();
-		int limite = 1;
+		int limite = 1000000;
 		for(int k = 0; k < limite; k++) {
 			hash.asString("MD5");
 		}
@@ -39,6 +39,5 @@ public class Teste {
 		diff = System.currentTimeMillis() - currentTimeMillis;
 		currentTimeMillis = System.currentTimeMillis();
 		System.out.println(diff);
-
 	}
 }
