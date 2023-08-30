@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
+import com.ccp.decorators.CcpStringDecorator;
 import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.implementations.cache.gcp.memcache.Cache;
 import com.ccp.implementations.db.dao.elasticsearch.Dao;
@@ -14,6 +15,7 @@ import com.ccp.implementations.file.bucket.gcp.FileBucket;
 import com.ccp.implementations.http.apache.mime.Http;
 import com.ccp.implementations.main.authentication.MainAuthentication;
 import com.ccp.implementations.mensageria.sender.gcp.pubsub.MensageriaSender;
+import com.ccp.implementations.mensageria.sender.gcp.pubsub.local.LocalMensageriaSender;
 import com.ccp.implementations.password.mindrot.Password;
 import com.ccp.implementations.text.extractor.apache.tika.JsonHandler;
 import com.ccp.jn.web.spring.controller.async.tasks.GetAsyncTaskByIdController;
@@ -36,10 +38,11 @@ public class JnSiteSpringApplicationStarter {
 
 	
 	public static void main(String[] args) {
+		boolean localEnviroment = new CcpStringDecorator("c:\\rh").file().exists();
 		CcpDependencyInjection.loadAllDependencies
 		(
-				new MainAuthentication()
-				,new MensageriaSender()
+				localEnviroment ? new LocalMensageriaSender() : new MensageriaSender()
+				,new MainAuthentication()
 				,new JsonHandler()
 				,new FileBucket()
 				,new Password()
