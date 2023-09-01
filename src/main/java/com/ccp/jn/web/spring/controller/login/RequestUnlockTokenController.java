@@ -13,11 +13,12 @@ import com.ccp.jn.sync.login.controller.RequestUnlockToken;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/login/{email}/token/lock", method = RequestMethod.HEAD)
+@RequestMapping("/login/{email}/token/lock")
 public class RequestUnlockTokenController {
 	
 	private final RequestUnlockToken injected = new RequestUnlockToken();
 
+	@RequestMapping(method = RequestMethod.HEAD)
 	public Map<String, Object> execute(@PathVariable("email") String email) {
 		CcpMapDecorator execute = this.injected.execute(email);
 		return execute.content;
