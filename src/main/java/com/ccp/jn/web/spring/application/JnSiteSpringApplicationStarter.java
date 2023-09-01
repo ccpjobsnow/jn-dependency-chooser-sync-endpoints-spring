@@ -26,7 +26,9 @@ import com.ccp.jn.web.spring.controller.resumes.search.DownloadResumeToRecruiter
 import com.ccp.jn.web.spring.exceptions.handler.JnSiteExceptionHandler;
 
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
-@ComponentScan(basePackageClasses = {ExistsLoginTokenController.class, 
+@ComponentScan(basePackageClasses = {
+		SwaggerConfig.class,
+		ExistsLoginTokenController.class, 
 		JnSiteExceptionHandler.class,
 		SaveContactUsController.class
 		,DownloadResumeToHisOwnerController.class
