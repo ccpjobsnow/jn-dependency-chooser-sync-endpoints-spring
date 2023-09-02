@@ -18,9 +18,9 @@ import com.ccp.implementations.mensageria.sender.gcp.pubsub.MensageriaSender;
 import com.ccp.implementations.mensageria.sender.gcp.pubsub.local.LocalMensageriaSender;
 import com.ccp.implementations.password.mindrot.Password;
 import com.ccp.implementations.text.extractor.apache.tika.JsonHandler;
+import com.ccp.jn.web.spring.controller.LoginController;
 import com.ccp.jn.web.spring.controller.async.tasks.GetAsyncTaskByIdController;
 import com.ccp.jn.web.spring.controller.contactus.SaveContactUsController;
-import com.ccp.jn.web.spring.controller.login.ExistsLoginTokenController;
 import com.ccp.jn.web.spring.controller.resumes.crud.DownloadResumeToHisOwnerController;
 import com.ccp.jn.web.spring.controller.resumes.search.DownloadResumeToRecruiterController;
 import com.ccp.jn.web.spring.exceptions.handler.JnSiteExceptionHandler;
@@ -28,7 +28,7 @@ import com.ccp.jn.web.spring.exceptions.handler.JnSiteExceptionHandler;
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
 @ComponentScan(basePackageClasses = {
 		SwaggerConfig.class,
-		ExistsLoginTokenController.class, 
+		LoginController.class, 
 		JnSiteExceptionHandler.class,
 		SaveContactUsController.class
 		,DownloadResumeToHisOwnerController.class
