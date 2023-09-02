@@ -16,7 +16,7 @@ import com.ccp.exceptions.mensageria.sender.MensageriaTopicGenericError;
 import com.ccp.jn.sync.common.business.NotifyError;
 
 @RestControllerAdvice
-public class JnSiteExceptionHandler {
+public class JnSyncExceptionHandler {
 
 	private NotifyError notifyError = new NotifyError();
 
