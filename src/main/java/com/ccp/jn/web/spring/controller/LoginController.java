@@ -117,7 +117,8 @@ public class LoginController {
 	        @ApiResponse(code = 409, message = "Status: 'Ressolicitção já feita previamente' <br/><br/> Quando ocorre? Quando não é a primeira vez que o usuário faz essa solicitação. <br/><br/>Qual comportamento esperado do front end? Exibir ao usuário mensagem de aviso a respeito da insistência nesta solicitação."),
 	        @ApiResponse(code = 421, message = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."),
 	 })	
-	@PatchMapping("/token/request")
+	
+	@PostMapping("/token/request")
 	public Map<String, Object> requestTokenAgain(@PathVariable("email") String email) {
 		CcpMapDecorator execute = this.loginService.requestTokenAgain(email);
 		return execute.content;
