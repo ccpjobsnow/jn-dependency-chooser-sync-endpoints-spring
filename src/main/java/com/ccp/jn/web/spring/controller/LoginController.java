@@ -187,9 +187,10 @@ public class LoginController {
 	        @ApiResponse(code = 404, message = "Status: 'Usuário novo no sistema' <br/><br/> Quando ocorre? Quando o e-mail do usuário é desconhecido por este banco de dados. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de redigitação do mesmo e-mail."),
 	        @ApiResponse(code = 409, message = "Status: 'Token não bloqueado' <br/><br/> Quando ocorre? Quando o usuário está tentando desbloquear um token que nao está bloqueado. <br/><br/>Qual comportamento esperado do front end? Exibição ao usuário mensagem de alerta Redirecionamento do usuário para a tela de cadastro de senha."),
 	 })	
-	@DeleteMapping("/token/lock")
+	@PatchMapping("/token/lock")
 	public Map<String, Object> unlockToken(@PathVariable("email") String email, @RequestBody Map<String, Object> body) {
-		CcpMapDecorator execute = this.loginService.unlockToken(new CcpMapDecorator(body).put("email", email));
+		CcpMapDecorator put = new CcpMapDecorator(body).put("email", email);
+		CcpMapDecorator execute = this.loginService.unlockToken(put);
 		return execute.content;
 	}
 
