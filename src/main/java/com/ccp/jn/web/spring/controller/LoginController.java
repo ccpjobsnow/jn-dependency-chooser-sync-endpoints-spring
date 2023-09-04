@@ -118,9 +118,9 @@ public class LoginController {
 	        @ApiResponse(code = 421, message = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."),
 	 })	
 	
-	@PostMapping("/token/request")
-	public Map<String, Object> requestTokenAgain(@PathVariable("email") String email) {
-		CcpMapDecorator execute = this.loginService.requestTokenAgain(email);
+	@PostMapping("/token/language/{language}/request/again")
+	public Map<String, Object> requestTokenAgain(@PathVariable("email") String email, @PathVariable("language") String language) {
+		CcpMapDecorator execute = this.loginService.requestTokenAgain(email, language);
 		return execute.content;
 	}
 
@@ -137,9 +137,9 @@ public class LoginController {
 	        @ApiResponse(code = 420, message = "Status: 'Token não bloqueado' <br/><br/> Quando ocorre? Quando o usuário está tentando desbloquear um token que nao está bloqueado. <br/><br/>Qual comportamento esperado do front end? Exibição ao usuário mensagem de alerta Redirecionamento do usuário para a tela de cadastro de senha."),
 	        @ApiResponse(code = 421, message = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."),
 	 })	
-	@RequestMapping(value = "/token/lock", method = RequestMethod.HEAD)
-	public void requestUnlockToken(@PathVariable("email") String email) {
-		 this.loginService.requestUnlockToken(email);
+	@RequestMapping(value = "/token/language/{language}/unlocking", method = RequestMethod.HEAD)
+	public void requestUnlockToken(@PathVariable("email") String email, @PathVariable("language") String language) {
+		 this.loginService.requestUnlockToken(email, language);
 	}
 	
 	@ApiOperation(value = "Nome deste passo: 'Salvar pré registro'... Quando ocorre? Logo após o usuário tentar executar login e o sistema constatar ausência de dados de pré registro. Para que serve? Serve para o usuário cadadtrar dados de pré registro.")
