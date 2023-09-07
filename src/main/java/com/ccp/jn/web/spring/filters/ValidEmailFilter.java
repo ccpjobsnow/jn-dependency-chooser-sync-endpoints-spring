@@ -35,7 +35,7 @@ public class ValidEmailFilter extends GenericFilterBean {
 		}
 
 		StringBuffer requestURL = request.getRequestURL();
-		String url = requestURL.toString();
+		String url = new CcpStringDecorator(requestURL.toString()).url().asDecoded();
 		String filtered = "login/";
 		int indexOf = url.indexOf(filtered) + filtered.length();
 		String urlSecondPiece = url.substring(indexOf);
