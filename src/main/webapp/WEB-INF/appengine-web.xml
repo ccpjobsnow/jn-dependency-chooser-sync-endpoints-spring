@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appengine-web-app
+	xmlns="http://appengine.google.com/ns/1.0">
+<!-- 	<application>noxxonsat-nxnet-prod</application> -->
+<!-- 	<version>corrigir-gravacao-br-json-invalido2</version>   -->
+	<threadsafe>true</threadsafe>
+	<runtime>java8</runtime>
+	<service>default</service>
+	<sessions-enabled>false</sessions-enabled>
+	<instance-class>F1</instance-class>
+	<!-- <automatic-scaling> -->
+	<!-- <max-idle-instances>automatic</max-idle-instances> -->
+	<!-- <min-pending-latency>automatic</min-pending-latency> -->
+	<!-- </automatic-scaling> -->
+
+<!-- 	<basic-scaling> -->
+<!-- 		<max-instances>1</max-instances> -->
+<!-- 		<idle-timeout>600s</idle-timeout> -->
+<!--  		<max-concurrent-requests>50</max-concurrent-requests> -->
+<!-- 	</basic-scaling> -->
+
+	<automatic-scaling> 
+ 		<min-idle-instances>1</min-idle-instances>
+ 		<max-idle-instances>1</max-idle-instances> 
+ 		<max-instances>3</max-instances>
+ 		<min-pending-latency>5s</min-pending-latency>
+ 		<max-pending-latency>10s</max-pending-latency>
+ 		<max-concurrent-requests>80</max-concurrent-requests>
+ 	</automatic-scaling>
+ 	
+
+</appengine-web-app>
