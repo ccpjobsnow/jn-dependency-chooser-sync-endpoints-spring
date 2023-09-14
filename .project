@@ -3,8 +3,31 @@
 	<name>jn-dependency-chooser-sync-spring</name>
 	<comment></comment>
 	<projects>
+		<project>ccp-mensageria-sender-gcp-pubsub</project>
+		<project>ccp-db-crud-elasticsearch</project>
+		<project>ccp-text-extractor-apache-tika</project>
+		<project>ccp-password-mindrot</project>
+		<project>ccp-file-bucket-gcp</project>
+		<project>jn-business-sync</project>
+		<project>ccp-email-sendgrid</project>
+		<project>ccp-main-authentication-gcp-oauth</project>
+		<project>ccp-http-apache-mime</project>
+		<project>ccp-json-gson</project>
+		<project>jn-business-commons</project>
+		<project>ccp-cache-gcp-memcache</project>
+		<project>ccp-db-bulk-elasticsearch</project>
+		<project>ccp-commons</project>
+		<project>ccp-db-query-elasticsearch</project>
+		<project>ccp-instant-messenger-telegram</project>
+		<project>ccp-db-utils-elasticsearch</project>
+		<project>jn-business-async</project>
 	</projects>
 	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.wst.common.project.facet.core.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
@@ -20,9 +43,18 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>com.google.cloud.tools.eclipse.appengine.standard.java8.appengineWeb</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
+		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
+		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
 </projectDescription>

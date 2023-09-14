@@ -6,7 +6,7 @@
 	<groupId>com.ccp.jn</groupId>
 	<artifactId>jn-dependency-chooser-sync-spring</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
+	<packaging>war</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -21,7 +21,17 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
-	<dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.google.cloud</groupId>
+				<artifactId>libraries-bom</artifactId>
+				<version>26.15.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>	<dependencies>
 		<dependency>
 			<groupId>com.ccp</groupId>
 			<artifactId>ccp-commons</artifactId>
@@ -156,8 +166,8 @@
 				<artifactId>appengine-maven-plugin</artifactId>
 				<version>2.2.0</version>
 				<configuration>
-					<projectId>jn-hmg</projectId>
-					<version>sync-primeiro-deploy</version>
+					<projectId>jn-hmg-396517</projectId>
+					<version>sync-primeiro-deploy2</version>
 				</configuration>
 			</plugin>
 		</plugins>

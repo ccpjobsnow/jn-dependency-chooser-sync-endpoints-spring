@@ -12,10 +12,10 @@ import com.ccp.jn.sync.resumes.crud.controller.RemoveResume;
 @RestController
 @RequestMapping(value = "/resumes/{resume}", method = RequestMethod.DELETE)
 public class RemoveResumeController {
-	private final RemoveResume injected = new RemoveResume();
 
 	public void execute(@PathVariable("resume") String resume) {
-		this.injected.execute(resume);
+		RemoveResume injected = new RemoveResume();
+		injected.execute(resume);
 	}
 	
 }

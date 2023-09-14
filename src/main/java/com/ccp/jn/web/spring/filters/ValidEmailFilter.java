@@ -1,16 +1,17 @@
 package com.ccp.jn.web.spring.filters;
 
+import javax.servlet.Filter;
 import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.filter.GenericFilterBean;
-
 import com.ccp.decorators.CcpStringDecorator;
 
-public class ValidEmailFilter extends GenericFilterBean {
+public class ValidEmailFilter implements Filter{
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain){
@@ -52,6 +53,18 @@ public class ValidEmailFilter extends GenericFilterBean {
 			throw new RuntimeException(e);
 		} 
 
+	}
+
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
