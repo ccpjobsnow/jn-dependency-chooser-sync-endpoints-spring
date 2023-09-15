@@ -40,22 +40,8 @@ import com.ccp.jn.web.spring.filters.ValidEmailFilter;
 })
 @SpringBootApplication
 public class JnSyncSpringApplicationStarter {
-
 	
 	public static void main(String[] args) {
-		boolean localEnviroment = new CcpStringDecorator("c:\\rh").file().exists();
-		CcpDependencyInjection.loadAllDependencies
-		(
-				localEnviroment ? new LocalMensageriaSender() : new MensageriaSender()
-				,new MainAuthentication()
-				,new JsonHandler()
-				,new FileBucket()
-				,new Password()
-				,new DbUtils()
-				,new Cache()
-				,new Http() 
-				,new Dao()
-		);
 
 		SpringApplication.run(JnSyncSpringApplicationStarter.class, args);
 	}
