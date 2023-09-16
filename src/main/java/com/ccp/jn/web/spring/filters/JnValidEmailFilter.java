@@ -16,11 +16,11 @@ import com.ccp.implementations.db.dao.elasticsearch.CcpElasticSearchDao;
 import com.ccp.implementations.db.utils.elasticsearch.CcpElasticSearchDbRequest;
 import com.ccp.implementations.file.bucket.gcp.CcpGcpFileBucket;
 import com.ccp.implementations.http.apache.mime.CcpApacheMimeHttp;
-import com.ccp.implementations.main.authentication.CcpGcpMainAuthentication;
+import com.ccp.implementations.json.gson.CcpGsonJsonHandler;
+import com.ccp.implementations.main.authentication.gcp.oauth.CcpGcpMainAuthentication;
 import com.ccp.implementations.mensageria.sender.gcp.pubsub.CcpGcpPubSubMensageriaSender;
 import com.ccp.implementations.mensageria.sender.gcp.pubsub.local.CcpLocalEndpointMensageriaSender;
 import com.ccp.implementations.password.mindrot.CcpMindrotPasswordHandler;
-import com.ccp.implementations.text.extractor.apache.tika.CcpGsonJsonHandler;
 
 public class JnValidEmailFilter implements Filter{
 
