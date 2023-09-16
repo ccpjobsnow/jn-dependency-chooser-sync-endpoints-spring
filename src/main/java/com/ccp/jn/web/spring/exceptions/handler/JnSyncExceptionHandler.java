@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.ccp.decorators.CcpMapDecorator;
-import com.ccp.exceptions.commons.CcpFlow;
 import com.ccp.exceptions.mensageria.sender.MensageriaTopicGenericError;
-import com.ccp.jn.sync.common.business.NotifyError;
+import com.ccp.exceptions.process.CcpFlow;
+import com.ccp.jn.sync.business.JnSyncBusinessNotifyError;
 
 @RestControllerAdvice
 public class JnSyncExceptionHandler {
 
-	private NotifyError notifyError = new NotifyError();
+	private JnSyncBusinessNotifyError notifyError = new JnSyncBusinessNotifyError();
 
 	@ExceptionHandler({ CcpFlow.class })
 	@ResponseBody

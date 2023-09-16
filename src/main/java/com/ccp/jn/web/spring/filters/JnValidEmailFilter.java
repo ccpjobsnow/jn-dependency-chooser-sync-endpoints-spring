@@ -11,32 +11,32 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ccp.decorators.CcpStringDecorator;
 import com.ccp.dependency.injection.CcpDependencyInjection;
-import com.ccp.implementations.cache.gcp.memcache.Cache;
-import com.ccp.implementations.db.dao.elasticsearch.Dao;
-import com.ccp.implementations.db.utils.elasticsearch.DbUtils;
-import com.ccp.implementations.file.bucket.gcp.FileBucket;
-import com.ccp.implementations.http.apache.mime.Http;
-import com.ccp.implementations.main.authentication.MainAuthentication;
-import com.ccp.implementations.mensageria.sender.gcp.pubsub.MensageriaSender;
-import com.ccp.implementations.mensageria.sender.gcp.pubsub.local.LocalMensageriaSender;
-import com.ccp.implementations.password.mindrot.Password;
-import com.ccp.implementations.text.extractor.apache.tika.JsonHandler;
+import com.ccp.implementations.cache.gcp.memcache.CcpGcpMemCache;
+import com.ccp.implementations.db.dao.elasticsearch.CcpElasticSearchDao;
+import com.ccp.implementations.db.utils.elasticsearch.CcpElasticSearchDbRequest;
+import com.ccp.implementations.file.bucket.gcp.CcpGcpFileBucket;
+import com.ccp.implementations.http.apache.mime.CcpApacheMimeHttp;
+import com.ccp.implementations.main.authentication.CcpGcpMainAuthentication;
+import com.ccp.implementations.mensageria.sender.gcp.pubsub.CcpGcpPubSubMensageriaSender;
+import com.ccp.implementations.mensageria.sender.gcp.pubsub.local.CcpLocalEndpointMensageriaSender;
+import com.ccp.implementations.password.mindrot.CcpMindrotPasswordHandler;
+import com.ccp.implementations.text.extractor.apache.tika.CcpGsonJsonHandler;
 
-public class ValidEmailFilter implements Filter{
+public class JnValidEmailFilter implements Filter{
 
 	static {
 		boolean localEnviroment = new CcpStringDecorator("c:\\rh").file().exists();
 		CcpDependencyInjection.loadAllDependencies
 		(
-				localEnviroment ? new LocalMensageriaSender() : new MensageriaSender()
-				,new MainAuthentication()
-				,new JsonHandler()
-				,new FileBucket()
-				,new Password()
-				,new DbUtils()
-				,new Cache()
-				,new Http() 
-				,new Dao()
+				localEnviroment ? new CcpLocalEndpointMensageriaSender() : new CcpGcpPubSubMensageriaSender()
+				,new CcpGcpMainAuthentication()
+				,new CcpGsonJsonHandler()
+				,new CcpGcpFileBucket()
+				,new CcpMindrotPasswordHandler()
+				,new CcpElasticSearchDbRequest()
+				,new CcpGcpMemCache()
+				,new CcpApacheMimeHttp() 
+				,new CcpElasticSearchDao()
 		);
 
 	}

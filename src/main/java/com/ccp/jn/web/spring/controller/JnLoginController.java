@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpMapDecorator;
-import com.ccp.jn.sync.service.LoginService;
+import com.ccp.jn.sync.service.JnSyncLoginService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,9 +27,9 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping(value = "/login/{email}")
 @Api(value = "Controles de login para cadastro de token, senha, senha fraca, pre registro, alem de controles de bloqueios diversos tais como: token, senha, senha de desbloqueio de token")
-public class LoginController {
+public class JnLoginController {
 	
-	private final LoginService loginService = new LoginService();
+	private final JnSyncLoginService loginService = new JnSyncLoginService();
 	
 	@GetMapping
 	public String teste(@PathVariable("email") String email) {

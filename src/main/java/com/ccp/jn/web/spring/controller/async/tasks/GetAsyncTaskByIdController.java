@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpMapDecorator;
-import com.ccp.jn.sync.resumes.tasks.controller.GetAsyncTaskById;
+import com.ccp.jn.sync.service.JnSyncAsyncTaskService;
 
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/async/task")
 public class GetAsyncTaskByIdController {
 	
-	private final GetAsyncTaskById injected = new GetAsyncTaskById();
+	private final JnSyncAsyncTaskService injected = new JnSyncAsyncTaskService();
 	
 	@GetMapping
 	

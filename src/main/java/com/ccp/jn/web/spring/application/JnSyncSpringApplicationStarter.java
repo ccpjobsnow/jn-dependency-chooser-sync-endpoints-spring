@@ -8,30 +8,18 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.ccp.decorators.CcpStringDecorator;
-import com.ccp.dependency.injection.CcpDependencyInjection;
-import com.ccp.implementations.cache.gcp.memcache.Cache;
-import com.ccp.implementations.db.dao.elasticsearch.Dao;
-import com.ccp.implementations.db.utils.elasticsearch.DbUtils;
-import com.ccp.implementations.file.bucket.gcp.FileBucket;
-import com.ccp.implementations.http.apache.mime.Http;
-import com.ccp.implementations.main.authentication.MainAuthentication;
-import com.ccp.implementations.mensageria.sender.gcp.pubsub.MensageriaSender;
-import com.ccp.implementations.mensageria.sender.gcp.pubsub.local.LocalMensageriaSender;
-import com.ccp.implementations.password.mindrot.Password;
-import com.ccp.implementations.text.extractor.apache.tika.JsonHandler;
-import com.ccp.jn.web.spring.controller.LoginController;
+import com.ccp.jn.web.spring.controller.JnLoginController;
 import com.ccp.jn.web.spring.controller.async.tasks.GetAsyncTaskByIdController;
 import com.ccp.jn.web.spring.controller.contactus.SaveContactUsController;
 import com.ccp.jn.web.spring.controller.resumes.crud.DownloadResumeToHisOwnerController;
 import com.ccp.jn.web.spring.controller.resumes.search.DownloadResumeToRecruiterController;
 import com.ccp.jn.web.spring.exceptions.handler.JnSyncExceptionHandler;
-import com.ccp.jn.web.spring.filters.ValidEmailFilter;
+import com.ccp.jn.web.spring.filters.JnValidEmailFilter;
 
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
 @ComponentScan(basePackageClasses = {
-		SwaggerConfig.class,
-		LoginController.class, 
+		JnSwaggerConfig.class,
+		JnLoginController.class, 
 		JnSyncExceptionHandler.class,
 		SaveContactUsController.class
 		,DownloadResumeToHisOwnerController.class
@@ -47,9 +35,9 @@ public class JnSyncSpringApplicationStarter {
 	}
 
 	@Bean
-	public FilterRegistrationBean<ValidEmailFilter> filtroJwt() {
-		FilterRegistrationBean<ValidEmailFilter> filtro = new FilterRegistrationBean<>();
-		filtro.setFilter(new ValidEmailFilter());
+	public FilterRegistrationBean<JnValidEmailFilter> filtroJwt() {
+		FilterRegistrationBean<JnValidEmailFilter> filtro = new FilterRegistrationBean<>();
+		filtro.setFilter(new JnValidEmailFilter());
 		filtro.addUrlPatterns("/login/*");
 
 		return filtro;
