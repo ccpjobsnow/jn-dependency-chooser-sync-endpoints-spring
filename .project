@@ -14,13 +14,13 @@
 		<project>ccp-http-apache-mime</project>
 		<project>ccp-json-gson</project>
 		<project>jn-business-commons</project>
-		<project>ccp-cache-gcp-memcache</project>
 		<project>ccp-db-bulk-elasticsearch</project>
 		<project>ccp-commons</project>
 		<project>ccp-db-query-elasticsearch</project>
 		<project>ccp-instant-messenger-telegram</project>
 		<project>ccp-db-utils-elasticsearch</project>
 		<project>jn-business-async</project>
+		<project>ccp-cache-gcp-memcache</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
