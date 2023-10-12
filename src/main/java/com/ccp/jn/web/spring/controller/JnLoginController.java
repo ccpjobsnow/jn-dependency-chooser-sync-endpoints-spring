@@ -138,9 +138,10 @@ public class JnLoginController {
 	        @ApiResponse(code = 421, message = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."),
 	 })	
 	
-	@RequestMapping(value = "/token/language/{language}/unlocking", method = RequestMethod.HEAD)
-	public void requestUnlockToken(@PathVariable("email") String email, @PathVariable("language") String language) {
-		 this.loginService.requestUnlockToken(email, language);
+	@PostMapping("/token/language/{language}/unlocking")
+	public Map<String, Object> requestUnlockToken(@PathVariable("email") String email, @PathVariable("language") String language) {
+		CcpMapDecorator requestUnlockToken = this.loginService.requestUnlockToken(email, language);
+		return requestUnlockToken.content;
 	}
 	
 	@ApiOperation(value = "Nome deste passo: 'Salvar pré registro'... Quando ocorre? Logo após o usuário tentar executar login e o sistema constatar ausência de dados de pré registro. Para que serve? Serve para o usuário cadadtrar dados de pré registro.")

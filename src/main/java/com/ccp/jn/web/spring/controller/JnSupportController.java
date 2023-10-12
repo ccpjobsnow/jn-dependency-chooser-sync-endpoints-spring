@@ -38,7 +38,8 @@ public class JnSupportController {
 	 })	
 	@PostMapping("/token/{email}/unlock")
 	public Map<String, Object> answerUnlockTokenRequest(@PathVariable("chatId") String chatId, @PathVariable("email") String email) {
-		CcpMapDecorator result = JnSyncSupportService.unlockToken.execute(Long.valueOf(chatId), email);
+		Long valueOf = Long.valueOf(chatId);
+		CcpMapDecorator result = JnSyncSupportService.unlockToken.execute(valueOf, email);
 		return result.content;
 	}
 
