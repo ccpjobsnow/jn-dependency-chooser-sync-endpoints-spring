@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.ccp.jn.web.spring.controller.JnLoginController;
+import com.ccp.jn.web.spring.controller.JnSupportController;
 import com.ccp.jn.web.spring.controller.async.tasks.GetAsyncTaskByIdController;
 import com.ccp.jn.web.spring.controller.contactus.SaveContactUsController;
 import com.ccp.jn.web.spring.controller.resumes.crud.DownloadResumeToHisOwnerController;
@@ -20,6 +21,7 @@ import com.ccp.jn.web.spring.filters.JnValidEmailFilter;
 @ComponentScan(basePackageClasses = {
 		JnSwaggerConfig.class,
 		JnLoginController.class, 
+		JnSupportController.class,
 		JnSyncExceptionHandler.class,
 		SaveContactUsController.class
 		,DownloadResumeToHisOwnerController.class
