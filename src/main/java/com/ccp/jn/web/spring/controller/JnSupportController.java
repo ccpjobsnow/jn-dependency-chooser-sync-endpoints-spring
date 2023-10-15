@@ -3,7 +3,6 @@ package com.ccp.jn.web.spring.controller;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +22,6 @@ import io.swagger.annotations.ApiResponses;
 @Api(value = "API que disponibiliza serviços para o time de suporte do JobsNow")
 public class JnSupportController {
 
-	@GetMapping
-	public String teste(@PathVariable("chatId") String chatId) {
-		return chatId;
-	}
-
-	
 	@ApiOperation(value = "Nome deste passo: 'Criar senha temporária para usuário desbloquear token'"
 			+ "... Quando ocorre? Quando usuário bloqueia o token e solicita desbloqueio deste token, o sistema envia por mensagem instantânea esta solicitação"
 			+ " que nomomento em que vai atender a esta solicitação, evoca este endpoint. "
