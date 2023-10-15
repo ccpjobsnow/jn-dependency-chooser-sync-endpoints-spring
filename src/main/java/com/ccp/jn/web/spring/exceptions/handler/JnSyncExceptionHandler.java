@@ -24,7 +24,8 @@ public class JnSyncExceptionHandler {
 	@ResponseBody
 	public Map<String, Object> handle(CcpFlow e, HttpServletResponse res){
 		res.setStatus(e.status);
-		return e.values.content;
+		CcpMapDecorator putAll = new CcpMapDecorator().put("message", e.getMessage()).putAll(e.values);
+		return putAll.content;
 	}
 
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
