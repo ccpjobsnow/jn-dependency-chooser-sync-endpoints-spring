@@ -4,4 +4,4 @@
 .project
 *.properties
 *.json
-src/main/webapp/WEB-INF/appengine-web.xml
+*ppengine-web.xml
