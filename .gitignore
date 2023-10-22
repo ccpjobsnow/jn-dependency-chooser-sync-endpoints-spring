@@ -4,3 +4,4 @@
 .project
 *.properties
 *.json
+*/appengine-web.xml

@@ -33,7 +33,7 @@ public class JnLoginController {
 	
 	@GetMapping
 	public String teste(@PathVariable("email") String email) {
-		return email;
+		return System.getenv("meuTeste");
 	}
 	
 	@ApiOperation(value = "Nome deste passo: 'Executar Login'... Quando ocorre? Logo após o usuário digitar sua senha. Para que serve? Serve para o usuário executar login no sistema, gerando um token que será a prova "
