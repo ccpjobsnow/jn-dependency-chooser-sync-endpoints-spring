@@ -28,7 +28,7 @@
 		<max-concurrent-requests>80</max-concurrent-requests>
 	</automatic-scaling>
 	<env-variables>
-		<env-var name="meuTeste" value="xxx" />
+		<env-var name="meuTeste" value="teste do onias" />
 	</env-variables>
 
 </appengine-web-app>
