@@ -3,24 +3,12 @@
 	<name>jn-dependency-chooser-sync-spring</name>
 	<comment></comment>
 	<projects>
-		<project>ccp-mensageria-sender-gcp-pubsub</project>
-		<project>ccp-db-crud-elasticsearch</project>
 		<project>ccp-text-extractor-apache-tika</project>
-		<project>ccp-password-mindrot</project>
-		<project>ccp-file-bucket-gcp</project>
-		<project>jn-business-sync</project>
 		<project>ccp-email-sendgrid</project>
-		<project>ccp-main-authentication-gcp-oauth</project>
-		<project>ccp-http-apache-mime</project>
-		<project>ccp-json-gson</project>
-		<project>jn-business-commons</project>
 		<project>ccp-db-bulk-elasticsearch</project>
-		<project>ccp-commons</project>
 		<project>ccp-db-query-elasticsearch</project>
 		<project>ccp-instant-messenger-telegram</project>
-		<project>ccp-db-utils-elasticsearch</project>
 		<project>jn-business-async</project>
-		<project>ccp-cache-gcp-memcache</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -35,11 +23,6 @@
 		</buildCommand>
 		<buildCommand>
 			<name>org.eclipse.wst.validation.validationbuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>com.google.cloud.tools.eclipse.appengine.standard.java8.appengineWeb</name>
 			<arguments>
 			</arguments>
 		</buildCommand>

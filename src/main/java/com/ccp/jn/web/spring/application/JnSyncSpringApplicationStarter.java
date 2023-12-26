@@ -17,6 +17,8 @@ import com.ccp.jn.web.spring.controller.resumes.search.DownloadResumeToRecruiter
 import com.ccp.jn.web.spring.exceptions.handler.JnSyncExceptionHandler;
 import com.ccp.jn.web.spring.filters.JnValidEmailFilter;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
 @ComponentScan(basePackageClasses = {
 		JnSwaggerConfig.class,
