@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.ccp.jn.web.spring.controller.JnLoginController;
 import com.ccp.jn.web.spring.controller.JnSupportController;
@@ -17,11 +18,9 @@ import com.ccp.jn.web.spring.controller.resumes.search.DownloadResumeToRecruiter
 import com.ccp.jn.web.spring.exceptions.handler.JnSyncExceptionHandler;
 import com.ccp.jn.web.spring.filters.JnValidEmailFilter;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
+@EnableWebMvc
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
 @ComponentScan(basePackageClasses = {
-		JnSwaggerConfig.class,
 		JnLoginController.class, 
 		JnSupportController.class,
 		JnSyncExceptionHandler.class,
@@ -34,6 +33,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class JnSyncSpringApplicationStarter {
 	
 	public static void main(String[] args) {
+		System.setProperty("spring.main.allow-bean-definition-overriding","true");
 
 		SpringApplication.run(JnSyncSpringApplicationStarter.class, args);
 	}

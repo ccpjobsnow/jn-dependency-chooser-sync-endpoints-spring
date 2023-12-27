@@ -2,8 +2,6 @@ package com.ccp.jn.web.spring.exceptions.handler;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +12,8 @@ import com.ccp.decorators.CcpMapDecorator;
 import com.ccp.exceptions.mensageria.sender.MensageriaTopicGenericError;
 import com.ccp.exceptions.process.CcpFlow;
 import com.ccp.jn.sync.business.JnSyncBusinessNotifyError;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestControllerAdvice
 public class JnSyncExceptionHandler {
