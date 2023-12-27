@@ -1,4 +1,4 @@
-package com.ccp.jn.web.spring.controller.async.tasks;
+package com.ccp.jn.web.spring.controller;
 
 import java.util.Map;
 
@@ -14,7 +14,7 @@ import com.ccp.jn.sync.service.JnSyncAsyncTaskService;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/async/task")
-public class GetAsyncTaskByIdController {
+public class JnAsyncTaskController {
 	
 	private final JnSyncAsyncTaskService injected = new JnSyncAsyncTaskService();
 	

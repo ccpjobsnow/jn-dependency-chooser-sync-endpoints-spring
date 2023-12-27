@@ -10,11 +10,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.ccp.jn.web.spring.controller.JnLoginController;
-import com.ccp.jn.web.spring.controller.JnSupportController;
-import com.ccp.jn.web.spring.controller.async.tasks.GetAsyncTaskByIdController;
-import com.ccp.jn.web.spring.controller.contactus.SaveContactUsController;
-import com.ccp.jn.web.spring.controller.resumes.crud.DownloadResumeToHisOwnerController;
-import com.ccp.jn.web.spring.controller.resumes.search.DownloadResumeToRecruiterController;
 import com.ccp.jn.web.spring.exceptions.handler.JnSyncExceptionHandler;
 import com.ccp.jn.web.spring.filters.JnValidEmailFilter;
 
@@ -22,12 +17,7 @@ import com.ccp.jn.web.spring.filters.JnValidEmailFilter;
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
 @ComponentScan(basePackageClasses = {
 		JnLoginController.class, 
-		JnSupportController.class,
 		JnSyncExceptionHandler.class,
-		SaveContactUsController.class
-		,DownloadResumeToHisOwnerController.class
-		,GetAsyncTaskByIdController.class
-		,DownloadResumeToRecruiterController.class
 })
 @SpringBootApplication
 public class JnSyncSpringApplicationStarter {
