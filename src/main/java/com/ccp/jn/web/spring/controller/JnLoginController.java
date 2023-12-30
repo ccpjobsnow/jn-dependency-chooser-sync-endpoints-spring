@@ -66,7 +66,9 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "{}")) }, responseCode = "429", description = "Status: 'Senha recém bloqueada <br/><br/> Quando ocorre? No exato momento em que o usuário digitou incorretamente a senha, e acaba exceder o máximo de tentativas de senhas incorretas. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário à tela de recadastro de senha."), })
 	@PostMapping
 	public Map<String, Object> executeLogin(HttpServletRequest request, @PathVariable("email") String email,
-			@Schema(example = "{'password': 'senhaqueousuariocadastrou', 'email': 'devs.jobsnow@gmail.com'}") @RequestBody Map<String, Object> body) {
+			@Schema(example = "{\r\n"
+					+ "    \"password\": \"Jobsnow1!\"\r\n"
+					+ "  }") @RequestBody Map<String, Object> body) {
 		String remoteAddr = request.getRemoteAddr();
 		Map<String, Object> values = new CcpMapDecorator(body).put("ip", remoteAddr).put("email", email).content;
 		CcpMapDecorator execute = this.loginService.executeLogin(values);
@@ -76,14 +78,22 @@ public class JnLoginController {
 	@Operation(summary = "Criar token para gerenciamento de senha", description = "Quando ocorre? Logo após ser constatado que é primeiro acesso deste usuário e ele confirmar o e-mail. Para que serve? Serve para o usuário requisitar envio de token para o seu e-mail e ele poder usar esse token para cadastrar senha. "
 			+ " (nas próximas requisições) que o requisitante (frontend), merece ter leitura ou escrita de certos recursos deste bando de dados. Passo anterior: 'Verificação de e-mail'.")
 	@ApiResponses(value = { @ApiResponse(content = {
-			@Content(schema = @Schema(example = "{}")) }, responseCode = "200", description = "Status: 'Senha já cadastrada, usuário sem pendências"
+			@Content(schema = @Schema(example = "{\r\n"
+					+ "    \"language\": \"portuguese\",\r\n"
+					+ "    \"email\": \"devs.jobsnow@gmail.com\"\r\n"
+					+ "  }")) }, responseCode = "200", description = "Status: 'Senha já cadastrada, usuário sem pendências"
 					+ " de cadastro' <br/><br/> Quando ocorre? Quando o usuário previamente cadastrou todos os dados de pre requisitos "
 					+ "(token, senha e pré registro)<br/><br/>"
 					+ "Qual comportamento esperado do front end? Redirecionamento para a tela que pede senha para executar login."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "{}")) }, responseCode = "201", description = "Status: 'O cadastro de Pre registro está pendente' <br/><br/> Quando ocorre? Quando o usuário deixou de cadastrar dados do pré registro<br/><br/>Qual comportamento esperado do front end? Redirecionamento para a tela de cadastro do pré registro."),
 			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "{'asyncTaskId':'ticketDaFilaSha1EmBase64'}")) }, responseCode = "202", description = "Status: 'Token para cadastro de senha enviado ao e-mail do usuário' <br/><br/> Quando ocorre? Quando o usuário acaba de requisitar com sucesso, o cadastro de senha<br/><br/>Qual comportamento esperado do front end? Redirecionamento para a tela de cadastro da senha."),
+					@Content(schema = @Schema(example = 
+							"    \"asyncTaskId\": \"-484333a30ec794b6c5490290cfda0486e7c31c89\",\r\n"
+							+ "    \"language\": \"portuguese\",\r\n"
+							+ "    \"message\": \"passwordIsMissing\",\r\n"
+							+ "    \"email\": \"devs.jobsnow@gmail.com\"\r\n"
+							+ "")) }, responseCode = "202", description = "Status: 'Token para cadastro de senha enviado ao e-mail do usuário' <br/><br/> Quando ocorre? Quando o usuário acaba de requisitar com sucesso, o cadastro de senha<br/><br/>Qual comportamento esperado do front end? Redirecionamento para a tela de cadastro da senha."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "{}")) }, responseCode = "400", description = "Status: 'Email inválido' <br/><br/> Quando ocorre? Quando a url path recebe um conjunto de caracteres que não representa um e-mail válido.<br/><br/>Qual comportamento esperado do front end? Apresentar erro genérico de sistema para o usuário."),
 			@ApiResponse(content = {
@@ -194,7 +204,10 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "{}")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."), })
 	@PostMapping("/pre-registration")
 	public void savePreRegistration(@PathVariable("email") String email, 
-			@Schema(example = "{'password': 'senhaqueousuariocadastrou', 'email': 'devs.jobsnow@gmail.com'}") @RequestBody Map<String, Object> body) {
+			@Schema(example = "{\r\n"
+					+ "    \"goal\": \"jobs\",\r\n"
+					+ "    \"channel\": \"linkedin\"\r\n"
+					+ "  }") @RequestBody Map<String, Object> body) {
 		CcpMapDecorator cmd = new CcpMapDecorator(body);
 		CcpMapDecorator put = cmd.put("email", email);
 		this.loginService.savePreRegistration(put);
@@ -218,10 +231,9 @@ public class JnLoginController {
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "{}")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."), })
 	@PostMapping("/password/weak")
-	public Map<String, Object> saveWeakPassword(@PathVariable("email") String email,
-			@Schema(example = "{'password': 'senhaqueousuariocadastrou', 'email': 'devs.jobsnow@gmail.com'}") @RequestBody Map<String, Object> requestBody) {
+	public Map<String, Object> saveWeakPassword(@PathVariable("email") String email) {
 		CcpMapDecorator execute = this.loginService
-				.saveWeakPassword(new CcpMapDecorator(requestBody).put("email", email));
+				.saveWeakPassword(new CcpMapDecorator().put("email", email));
 		return execute.content;
 	}
 
@@ -242,7 +254,9 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "{}")) }, responseCode = "422", description = "Status: 'Token não bloqueado' <br/><br/> Quando ocorre? Quando o usuário tenta o desbloqueio de um token que não está bloqueado. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário por meio de mensagem que ele está tentando desbloquear um token que não está bloqueado."), })
 	@PatchMapping("/token/lock")
 	public Map<String, Object> unlockToken(@PathVariable("email") String email, 
-			@Schema(example = "{'password': 'senhaqueousuariocadastrou', 'email': 'devs.jobsnow@gmail.com'}") @RequestBody Map<String, Object> requestBody) {
+			@Schema(example = "{\r\n"
+					+ "    \"password\": \"6S1EZ7OA\"\r\n"
+					+ "  }") @RequestBody Map<String, Object> requestBody) {
 		CcpMapDecorator put = new CcpMapDecorator(requestBody).put("email", email);
 		CcpMapDecorator execute = this.loginService.unlockToken(put);
 		return execute.content;
@@ -269,7 +283,10 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "{}")) }, responseCode = "422", description = "Status: 'A senha não cumpre requisitos para ser uma senha forte' <br/><br/> Quando ocorre? Quando a combinação de caracteres digitadas pelo usuário, não cumpre os requisitos para ser considerada uma senha forte. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para tela de confirmação de senha fraca."), })
 	@PostMapping("/password")
 	public Map<String, Object> updatePassword(@PathVariable("email") String email,
-			@Schema(example = "{'password': 'senhaqueousuariocadastrou', 'email': 'devs.jobsnow@gmail.com'}") @RequestBody Map<String, Object> requestBody) {
+			@Schema(example = " {\r\n"
+					+ "    \"password\": \"Jobsnow1!\",\r\n"
+					+ "    \"token\": \"RA48JRFM\"\r\n"
+					+ "  }") @RequestBody Map<String, Object> requestBody) {
 		CcpMapDecorator put = new CcpMapDecorator(requestBody).put("email", email);
 		CcpMapDecorator execute = this.loginService.updatePassword(put);
 		return execute.content;

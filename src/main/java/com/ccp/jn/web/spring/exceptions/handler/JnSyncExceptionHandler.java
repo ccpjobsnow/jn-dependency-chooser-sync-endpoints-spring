@@ -24,7 +24,7 @@ public class JnSyncExceptionHandler {
 	@ResponseBody
 	public Map<String, Object> handle(CcpFlow e, HttpServletResponse res){
 		res.setStatus(e.status);
-		CcpMapDecorator putAll = new CcpMapDecorator().put("message", e.getMessage()).putAll(e.values);
+		CcpMapDecorator putAll = new CcpMapDecorator().put("message", e.getMessage()).putAll(e.values).removeKeys("_entities", "pastSteps", "step", "business");
 		return putAll.content;
 	}
 
