@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ccp.decorators.CcpMapDecorator;
+import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.jn.sync.service.JnSyncSupportService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,7 +39,7 @@ public class JnSupportController {
 	@PostMapping("/token/{email}/unlock")
 	public Map<String, Object> answerUnlockTokenRequest(@PathVariable("chatId") String chatId, @PathVariable("email") String email) {
 		Long valueOf = Long.valueOf(chatId);
-		CcpMapDecorator result = JnSyncSupportService.unlockToken.execute(valueOf, email);
+		CcpJsonRepresentation result = JnSyncSupportService.unlockToken.execute(valueOf, email);
 		return result.content;
 	}
 
@@ -56,7 +56,7 @@ public class JnSupportController {
 	 })	
 	@PostMapping("/token/{email}/resending")
 	public Map<String, Object> resentTokenToTheUser(@PathVariable("chatId") String chatId, @PathVariable("email") String email) {
-		CcpMapDecorator result = JnSyncSupportService.resendToken.execute(Long.valueOf(chatId), email);
+		CcpJsonRepresentation result = JnSyncSupportService.resendToken.execute(Long.valueOf(chatId), email);
 		return result.content;
 	}
 	

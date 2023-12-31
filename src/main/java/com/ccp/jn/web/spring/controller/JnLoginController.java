@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ccp.decorators.CcpMapDecorator;
+import com.ccp.constantes.CcpConstants;
+import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.jn.sync.service.JnSyncLoginService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -100,8 +101,8 @@ public class JnLoginController {
 					+ "    \"password\": \"Jobsnow1!\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> body, @RequestParam(value = "wordsHash", required =  false)String wordsHash) {
 		String remoteAddr = request.getRemoteAddr();
-		Map<String, Object> values = new CcpMapDecorator(body).put("ip", remoteAddr).put("email", email).content;
-		CcpMapDecorator execute = this.loginService.executeLogin(values);
+		Map<String, Object> values = new CcpJsonRepresentation(body).put("ip", remoteAddr).put("email", email).content;
+		CcpJsonRepresentation execute = this.loginService.executeLogin(values);
 		return execute.content;
 	}
 
@@ -116,7 +117,7 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "")) }, responseCode = "201", description = "Status: 'O cadastro de Pre registro está pendente' <br/><br/> Quando ocorre? Quando o usuário deixou de cadastrar dados do pré registro<br/><br/>Qual comportamento esperado do front end? Redirecionamento para a tela de cadastro do pré registro."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = 
-							"    \"asyncTaskId\": \"-484333a30ec794b6c5490290cfda0486e7c31c89\""
+							" {\"asyncTaskId\": \"-484333a30ec794b6c5490290cfda0486e7c31c89\"}"
 							)) }, responseCode = "202", description = "Status: 'Token para cadastro de senha enviado ao e-mail do usuário' <br/><br/> Quando ocorre? Quando o usuário acaba de requisitar com sucesso, o cadastro de senha<br/><br/>Qual comportamento esperado do front end? Redirecionamento para a tela de cadastro da senha."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "400", description = "Status: 'Email inválido' <br/><br/> Quando ocorre? Quando a url path recebe um conjunto de caracteres que não representa um e-mail válido.<br/><br/>Qual comportamento esperado do front end? Apresentar erro genérico de sistema para o usuário."),
@@ -134,7 +135,7 @@ public class JnLoginController {
 	public Map<String, Object> createLoginToken(@PathVariable("email") String email,
 			@PathVariable("language") String language) {
 		
-		CcpMapDecorator createLoginToken = this.loginService.createLoginToken(email, language);
+		CcpJsonRepresentation createLoginToken = this.loginService.createLoginToken(email, language);
 		return createLoginToken.content;
 	}
 
@@ -187,7 +188,7 @@ public class JnLoginController {
 	@PostMapping("/token/language/{language}/request/again")
 	public Map<String, Object> requestTokenAgain(@PathVariable("email") String email,
 			@PathVariable("language") String language) {
-		CcpMapDecorator execute = this.loginService.requestTokenAgain(email, language);
+		CcpJsonRepresentation execute = this.loginService.requestTokenAgain(email, language);
 		return execute.content;
 	}
 
@@ -209,7 +210,7 @@ public class JnLoginController {
 	@PostMapping("/token/language/{language}/unlocking")
 	public Map<String, Object> requestUnlockToken(@PathVariable("email") String email,
 			@PathVariable("language") String language) {
-		CcpMapDecorator requestUnlockToken = this.loginService.requestUnlockToken(email, language);
+		CcpJsonRepresentation requestUnlockToken = this.loginService.requestUnlockToken(email, language);
 		return requestUnlockToken.content;
 	}
 
@@ -238,8 +239,8 @@ public class JnLoginController {
 					+ "    \"goal\": \"jobs\",\r\n"
 					+ "    \"channel\": \"linkedin\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> body) {
-		CcpMapDecorator cmd = new CcpMapDecorator(body);
-		CcpMapDecorator put = cmd.put("email", email);
+		CcpJsonRepresentation cmd = new CcpJsonRepresentation(body);
+		CcpJsonRepresentation put = cmd.put("email", email);
 		this.loginService.savePreRegistration(put);
 	}
 
@@ -262,8 +263,8 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."), })
 	@PostMapping("/password/weak")
 	public Map<String, Object> saveWeakPassword(@PathVariable("email") String email) {
-		CcpMapDecorator execute = this.loginService
-				.saveWeakPassword(new CcpMapDecorator().put("email", email));
+		CcpJsonRepresentation execute = this.loginService
+				.saveWeakPassword(CcpConstants.EMPTY_JSON.put("email", email));
 		return execute.content;
 	}
 
@@ -287,8 +288,8 @@ public class JnLoginController {
 			@Schema(example = "{\r\n"
 					+ "    \"password\": \"6S1EZ7OA\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> requestBody) {
-		CcpMapDecorator put = new CcpMapDecorator(requestBody).put("email", email);
-		CcpMapDecorator execute = this.loginService.unlockToken(put);
+		CcpJsonRepresentation put = new CcpJsonRepresentation(requestBody).put("email", email);
+		CcpJsonRepresentation execute = this.loginService.unlockToken(put);
 		return execute.content;
 	}
 
@@ -335,8 +336,8 @@ public class JnLoginController {
 					+ "    \"password\": \"Jobsnow1!\",\r\n"
 					+ "    \"token\": \"RA48JRFM\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> requestBody, @RequestParam(value = "wordsHash", required =  false)String wordsHash) {
-		CcpMapDecorator put = new CcpMapDecorator(requestBody).put("email", email);
-		CcpMapDecorator execute = this.loginService.updatePassword(put);
+		CcpJsonRepresentation put = new CcpJsonRepresentation(requestBody).put("email", email);
+		CcpJsonRepresentation execute = this.loginService.updatePassword(put);
 		return execute.content;
 	}
 
