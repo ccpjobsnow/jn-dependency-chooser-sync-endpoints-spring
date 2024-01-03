@@ -149,7 +149,7 @@
 				<configuration>
 					<deploy.stopPreviousVersion>true</deploy.stopPreviousVersion>
 					<cloudSdkHome>C:\Users\Hp Elitebook\AppData\Local\Google\Cloud SDK\google-cloud-sdk</cloudSdkHome>
-					<projectId>jn-hmg-396517</projectId>
+					<projectId>jn-hmg</projectId>
 					<version>sync-primeiro-deploy4</version>
 				</configuration>
 			</plugin>

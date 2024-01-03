@@ -36,7 +36,13 @@ public class JnLoginController {
 
 	@GetMapping
 	public String teste(@PathVariable("email") String email) {
-		return email;
+		String getenv2 = System.getenv("application_properties");
+		try {
+			String getenv = "variavel de ambiente: " +new CcpJsonRepresentation(getenv2);
+			return getenv;
+		} catch (Exception e) {
+			return getenv2;
+		}
 	}
 
 	@Operation(summary = "Executar Login", description = "Quando ocorre? Logo após o usuário digitar sua senha. Para que serve? Serve para o usuário executar login no sistema, gerando um token que será a prova "
