@@ -36,7 +36,7 @@ public class JnLoginController {
 
 	@GetMapping
 	public String teste(@PathVariable("email") String email) {
-		String getenv2 = System.getenv("application_properties");
+		String getenv2 = System.getenv("GOOGLE_APPLICATION_CREDENTIALS");
 		try {
 			String getenv = "variavel de ambiente: " +new CcpJsonRepresentation(getenv2);
 			return getenv;
