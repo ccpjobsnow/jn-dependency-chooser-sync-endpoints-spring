@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.ccp.constantes.CcpConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.exceptions.mensageria.sender.MensageriaTopicGenericError;
 import com.ccp.exceptions.process.CcpFlow;
+import com.ccp.fields.validations.exceptions.CcpJsonInvalid;
 import com.ccp.jn.sync.business.JnSyncBusinessNotifyError;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,6 +20,12 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JnSyncExceptionHandler {
 
 	private final JnSyncBusinessNotifyError notifyError = new JnSyncBusinessNotifyError();
+
+	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+	@ExceptionHandler({ CcpJsonInvalid.class })
+	public Map<String, Object> handle(CcpJsonInvalid e) {
+		return e.errors.content;
+	}
 
 	@ExceptionHandler({ CcpFlow.class })
 	@ResponseBody
@@ -46,9 +52,5 @@ public class JnSyncExceptionHandler {
 	@ExceptionHandler({ Throwable.class })
 	public CcpJsonRepresentation handle(Throwable e) {
 		return this.notifyError.apply(e);
-	}
-	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler({ MensageriaTopicGenericError.class })
-	public void handle(MensageriaTopicGenericError e) {
 	}
 }
