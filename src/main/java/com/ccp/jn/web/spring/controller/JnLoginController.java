@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.constantes.CcpConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.fields.validations.annotations.CcpFieldObjectTextsValidations;
-import com.ccp.fields.validations.annotations.CcpFieldValidationAllowedValuesRules;
-import com.ccp.fields.validations.annotations.CcpFieldValidationRules;
-import com.ccp.fields.validations.enums.ObjectTextsSizeValidations;
+import com.ccp.fields.validations.annotations.AllowedValues;
+import com.ccp.fields.validations.annotations.ObjectText;
+import com.ccp.fields.validations.annotations.ValidationRules;
 import com.ccp.fields.validations.enums.AllowedValuesValidations;
+import com.ccp.fields.validations.enums.ObjectTextSizeValidations;
 import com.ccp.jn.sync.service.JnSyncLoginService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -100,9 +100,9 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "")) }, responseCode = "422", description = "Status: 'Senha digitada incorretamente' <br/><br/> Quando ocorre? Quando o usuário, digitou incorretamente a senha, mas ainda não excedeu o máximo de tentativas de senhas incorretas. <br/><br/>Qual comportamento esperado do front end? Exibir mensagem de erro informando o número de tentativas incorretas de digitação de senha."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "429", description = "Status: 'Senha recém bloqueada <br/><br/> Quando ocorre? No exato momento em que o usuário digitou incorretamente a senha, e acaba exceder o máximo de tentativas de senhas incorretas. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário à tela de recadastro de senha."), })
-	@CcpFieldValidationRules(
+	@ValidationRules(
 			objectTextsValidations = {
-					@CcpFieldObjectTextsValidations (rule = ObjectTextsSizeValidations.equalsTo, 
+					@ObjectText (rule = ObjectTextSizeValidations.equalsTo, 
 							fields = {"password"}, bound = 8)
 					 }
 				)
@@ -244,10 +244,10 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "")) }, responseCode = "420", description = "Status: 'Token pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário bloqueou o token (digitando-o incorretamente por várias vezes na tela de alteração de senha) e então requisita desbloqueio de token, porém o suporte ainda não o atendeu. <br/><br/>Qual comportamento esperado do front end? Exibir uma mensagem de que em breve o suporte do JobsNow entrará em contato com ele por meio dos contatos informados e redirecioná-lo para a tela de desbloqueio de token."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."), })
-	@CcpFieldValidationRules(
-			restrictedValues =  {
-						@CcpFieldValidationAllowedValuesRules(rule = AllowedValuesValidations.arrayWithAllowedTexts, fields = {"goal"}, allowedValues = {"jobs", "recruiting"}),
-						@CcpFieldValidationAllowedValuesRules(rule = AllowedValuesValidations.objectWithAllowedTexts, fields = {"channel"}, allowedValues = {"linkedin", "telegram", "friends", "others"}),
+	@ValidationRules(
+			allowedValues =   {
+						@AllowedValues(rule = AllowedValuesValidations.arrayWithAllowedTexts, fields = {"goal"}, allowedValues = {"jobs", "recruiting"}),
+						@AllowedValues(rule = AllowedValuesValidations.objectWithAllowedTexts, fields = {"channel"}, allowedValues = {"linkedin", "telegram", "friends", "others"}),
 					 }
 				)
 	@PostMapping("/pre-registration")
@@ -300,9 +300,10 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "422", description = "Status: 'Token não bloqueado' <br/><br/> Quando ocorre? Quando o usuário tenta o desbloqueio de um token que não está bloqueado. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário por meio de mensagem que ele está tentando desbloquear um token que não está bloqueado."), })
-	@CcpFieldValidationRules(
+	@ValidationRules(
 			objectTextsValidations = {
-					@CcpFieldObjectTextsValidations (rule = ObjectTextsSizeValidations.equalsTo, fields = {"password"}, bound = 8)
+					@ObjectText (rule = ObjectTextSizeValidations.equalsTo, 
+							fields = {"password"}, bound = 8)
 					 }
 				)
 	@PatchMapping("/token/lock")
@@ -353,10 +354,9 @@ public class JnLoginController {
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "422", description = "Status: 'A senha não cumpre requisitos para ser uma senha forte' <br/><br/> Quando ocorre? Quando a combinação de caracteres digitadas pelo usuário, não cumpre os requisitos para ser considerada uma senha forte. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para tela de confirmação de senha fraca."), })
 	
-	@CcpFieldValidationRules(
+	@ValidationRules(
 			objectTextsValidations = {
-					@CcpFieldObjectTextsValidations (
-							rule = ObjectTextsSizeValidations.equalsTo, 
+					@ObjectText (rule = ObjectTextSizeValidations.equalsTo, 
 							fields = {"password", "token"}, bound = 8)
 					 }
 				)
