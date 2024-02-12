@@ -16,12 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.constantes.CcpConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.fields.validations.annotations.AllowedValues;
-import com.ccp.fields.validations.annotations.ObjectText;
 import com.ccp.fields.validations.annotations.ValidationRules;
-import com.ccp.fields.validations.enums.AllowedValuesValidations;
-import com.ccp.fields.validations.enums.ObjectTextSizeValidations;
 import com.ccp.jn.sync.service.JnSyncLoginService;
+import com.ccp.jn.web.spring.validations.login.JnFieldValidationPassword;
+import com.ccp.jn.web.spring.validations.login.JnFieldValidationPasswordAndToken;
+import com.ccp.jn.web.spring.validations.login.JnFieldValidationPreRegistration;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -100,12 +99,7 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "")) }, responseCode = "422", description = "Status: 'Senha digitada incorretamente' <br/><br/> Quando ocorre? Quando o usuário, digitou incorretamente a senha, mas ainda não excedeu o máximo de tentativas de senhas incorretas. <br/><br/>Qual comportamento esperado do front end? Exibir mensagem de erro informando o número de tentativas incorretas de digitação de senha."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "429", description = "Status: 'Senha recém bloqueada <br/><br/> Quando ocorre? No exato momento em que o usuário digitou incorretamente a senha, e acaba exceder o máximo de tentativas de senhas incorretas. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário à tela de recadastro de senha."), })
-	@ValidationRules(
-			objectTextsValidations = {
-					@ObjectText (rule = ObjectTextSizeValidations.equalsTo, 
-							fields = {"password"}, bound = 8)
-					 }
-				)
+	@ValidationRules(rulesClass = JnFieldValidationPassword.class)
 	@PostMapping
 	public Map<String, Object> executeLogin(HttpServletRequest request, @PathVariable("email") String email,
 			@Schema(example = "{\r\n"
@@ -244,12 +238,7 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "")) }, responseCode = "420", description = "Status: 'Token pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário bloqueou o token (digitando-o incorretamente por várias vezes na tela de alteração de senha) e então requisita desbloqueio de token, porém o suporte ainda não o atendeu. <br/><br/>Qual comportamento esperado do front end? Exibir uma mensagem de que em breve o suporte do JobsNow entrará em contato com ele por meio dos contatos informados e redirecioná-lo para a tela de desbloqueio de token."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."), })
-	@ValidationRules(
-			allowedValues =   {
-						@AllowedValues(rule = AllowedValuesValidations.arrayWithAllowedTexts, fields = {"goal"}, allowedValues = {"jobs", "recruiting"}),
-						@AllowedValues(rule = AllowedValuesValidations.objectWithAllowedTexts, fields = {"channel"}, allowedValues = {"linkedin", "telegram", "friends", "others"}),
-					 }
-				)
+	@ValidationRules(rulesClass = JnFieldValidationPreRegistration.class)
 	@PostMapping("/pre-registration")
 	public void savePreRegistration(@PathVariable("email") String email, 
 			@Schema(example = "{\r\n"
@@ -300,12 +289,7 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "422", description = "Status: 'Token não bloqueado' <br/><br/> Quando ocorre? Quando o usuário tenta o desbloqueio de um token que não está bloqueado. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário por meio de mensagem que ele está tentando desbloquear um token que não está bloqueado."), })
-	@ValidationRules(
-			objectTextsValidations = {
-					@ObjectText (rule = ObjectTextSizeValidations.equalsTo, 
-							fields = {"password"}, bound = 8)
-					 }
-				)
+	@ValidationRules(rulesClass = JnFieldValidationPassword.class)
 	@PatchMapping("/token/lock")
 	public Map<String, Object> unlockToken(@PathVariable("email") String email, 
 			@Schema(example = "{\r\n"
@@ -354,12 +338,7 @@ public class JnLoginController {
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "422", description = "Status: 'A senha não cumpre requisitos para ser uma senha forte' <br/><br/> Quando ocorre? Quando a combinação de caracteres digitadas pelo usuário, não cumpre os requisitos para ser considerada uma senha forte. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para tela de confirmação de senha fraca."), })
 	
-	@ValidationRules(
-			objectTextsValidations = {
-					@ObjectText (rule = ObjectTextSizeValidations.equalsTo, 
-							fields = {"password", "token"}, bound = 8)
-					 }
-				)
+	@ValidationRules(rulesClass = JnFieldValidationPasswordAndToken.class)
 	@PostMapping("/password")
 	public Map<String, Object> updatePassword(@PathVariable("email") String email,
 			@Schema(example = " {\r\n"
