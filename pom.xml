@@ -100,7 +100,12 @@
 			<artifactId>ccp-main-authentication-gcp-oauth</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-			
+		<dependency>
+			<groupId>com.ccp</groupId>
+			<artifactId>ccp-sync-handler-exception-spring</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -154,7 +159,9 @@
 				<version>2.4.4</version>
 				<configuration>
 					<deploy.stopPreviousVersion>true</deploy.stopPreviousVersion>
-					<cloudSdkHome>C:\Users\Hp Elitebook\AppData\Local\Google\Cloud SDK\google-cloud-sdk</cloudSdkHome>
+					<cloudSdkHome>C:\Users\Hp
+						Elitebook\AppData\Local\Google\Cloud
+						SDK\google-cloud-sdk</cloudSdkHome>
 					<projectId>jn-hmg</projectId>
 					<version>sync-primeiro-deploy4</version>
 				</configuration>

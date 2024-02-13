@@ -1,4 +1,4 @@
-package com.ccp.jn.web.spring.controller;
+package com.ccp.jn.controller;
 
 import java.util.Map;
 

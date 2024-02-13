@@ -1,4 +1,4 @@
-package com.ccp.jn.web.spring.controller;
+package com.ccp.jn.controller;
 
 import java.util.Map;
 
@@ -18,9 +18,9 @@ import com.ccp.constantes.CcpConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.fields.validations.annotations.ValidationRules;
 import com.ccp.jn.sync.service.JnSyncLoginService;
-import com.ccp.jn.web.spring.validations.login.JnFieldValidationPassword;
-import com.ccp.jn.web.spring.validations.login.JnFieldValidationPasswordAndToken;
-import com.ccp.jn.web.spring.validations.login.JnFieldValidationPreRegistration;
+import com.ccp.jn.sync.validations.login.JnFieldValidationPassword;
+import com.ccp.jn.sync.validations.login.JnFieldValidationPasswordAndToken;
+import com.ccp.jn.sync.validations.login.JnFieldValidationPreRegistration;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

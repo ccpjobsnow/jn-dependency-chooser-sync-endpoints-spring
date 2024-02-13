@@ -1,4 +1,4 @@
-package com.ccp.jn.web.spring.application;
+package com.ccp.jn;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -9,21 +9,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.ccp.jn.web.spring.controller.JnLoginController;
-import com.ccp.jn.web.spring.exceptions.handler.JnSyncExceptionHandler;
-import com.ccp.jn.web.spring.filters.JnValidEmailFilter;
+import com.ccp.jn.controller.JnLoginController;
+import com.ccp.jn.filters.JnValidEmailFilter;
+import com.ccp.jn.sync.business.JnSyncBusinessNotifyError;
+import com.ccp.web.spring.exceptions.handler.CcpSyncExceptionHandler;
 
 @EnableWebMvc
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
 @ComponentScan(basePackageClasses = {
 		JnLoginController.class, 
-		JnSyncExceptionHandler.class,
+		CcpSyncExceptionHandler.class,
 })
 @SpringBootApplication
 public class JnSyncSpringApplicationStarter {
 	
 	public static void main(String[] args) {
-		System.setProperty("spring.main.allow-bean-definition-overriding","true");
+		
+		CcpSyncExceptionHandler.genericExceptionHandler = new JnSyncBusinessNotifyError();
 
 		SpringApplication.run(JnSyncSpringApplicationStarter.class, args);
 	}

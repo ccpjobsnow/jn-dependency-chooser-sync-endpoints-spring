@@ -1,4 +1,4 @@
-package com.ccp.jn.web.spring.filters;
+package com.ccp.jn.filters;
 
 import com.ccp.decorators.CcpStringDecorator;
 import com.ccp.dependency.injection.CcpDependencyInjection;
