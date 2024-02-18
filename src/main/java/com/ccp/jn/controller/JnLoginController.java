@@ -20,7 +20,7 @@ import com.ccp.jn.sync.service.JnSyncLoginService;
 import com.ccp.jn.sync.validations.login.JnFieldValidationPassword;
 import com.ccp.jn.sync.validations.login.JnFieldValidationPasswordAndToken;
 import com.ccp.jn.sync.validations.login.JnFieldValidationPreRegistration;
-import com.ccp.validation.annotations.ValidationRules;
+import com.ccp.validation.CcpJsonFieldsValidations;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -99,12 +99,13 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "")) }, responseCode = "422", description = "Status: 'Senha digitada incorretamente' <br/><br/> Quando ocorre? Quando o usuário, digitou incorretamente a senha, mas ainda não excedeu o máximo de tentativas de senhas incorretas. <br/><br/>Qual comportamento esperado do front end? Exibir mensagem de erro informando o número de tentativas incorretas de digitação de senha."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "429", description = "Status: 'Senha recém bloqueada <br/><br/> Quando ocorre? No exato momento em que o usuário digitou incorretamente a senha, e acaba exceder o máximo de tentativas de senhas incorretas. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário à tela de recadastro de senha."), })
-	@ValidationRules(rulesClass = JnFieldValidationPassword.class)
 	@PostMapping
 	public Map<String, Object> executeLogin(HttpServletRequest request, @PathVariable("email") String email,
 			@Schema(example = "{\r\n"
 					+ "    \"password\": \"Jobsnow1!\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> body, @RequestParam(value = "wordsHash", required =  false) String wordsHash) {
+		CcpJsonFieldsValidations.validate(JnFieldValidationPassword.class, body);
+	
 		String remoteAddr = request.getRemoteAddr();
 		Map<String, Object> values = new CcpJsonRepresentation(body).put("ip", remoteAddr).put("email", email).content;
 		CcpJsonRepresentation execute = this.loginService.executeLogin(values);
@@ -238,13 +239,13 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "")) }, responseCode = "420", description = "Status: 'Token pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário bloqueou o token (digitando-o incorretamente por várias vezes na tela de alteração de senha) e então requisita desbloqueio de token, porém o suporte ainda não o atendeu. <br/><br/>Qual comportamento esperado do front end? Exibir uma mensagem de que em breve o suporte do JobsNow entrará em contato com ele por meio dos contatos informados e redirecioná-lo para a tela de desbloqueio de token."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."), })
-	@ValidationRules(rulesClass = JnFieldValidationPreRegistration.class)
 	@PostMapping("/pre-registration")
 	public void savePreRegistration(@PathVariable("email") String email, 
 			@Schema(example = "{\r\n"
 					+ "    \"goal\": \"jobs\",\r\n"
 					+ "    \"channel\": \"linkedin\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> body) {
+		CcpJsonFieldsValidations.validate(JnFieldValidationPreRegistration.class, body);
 		CcpJsonRepresentation cmd = new CcpJsonRepresentation(body);
 		CcpJsonRepresentation put = cmd.put("email", email);
 		this.loginService.savePreRegistration(put);
@@ -289,12 +290,12 @@ public class JnLoginController {
 					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "422", description = "Status: 'Token não bloqueado' <br/><br/> Quando ocorre? Quando o usuário tenta o desbloqueio de um token que não está bloqueado. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário por meio de mensagem que ele está tentando desbloquear um token que não está bloqueado."), })
-	@ValidationRules(rulesClass = JnFieldValidationPassword.class)
 	@PatchMapping("/token/lock")
 	public Map<String, Object> unlockToken(@PathVariable("email") String email, 
 			@Schema(example = "{\r\n"
 					+ "    \"password\": \"6S1EZ7OA\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> requestBody) {
+		CcpJsonFieldsValidations.validate(JnFieldValidationPassword.class, requestBody);
 		CcpJsonRepresentation put = new CcpJsonRepresentation(requestBody).put("email", email);
 		CcpJsonRepresentation execute = this.loginService.unlockToken(put);
 		return execute.content;
@@ -338,13 +339,13 @@ public class JnLoginController {
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "422", description = "Status: 'A senha não cumpre requisitos para ser uma senha forte' <br/><br/> Quando ocorre? Quando a combinação de caracteres digitadas pelo usuário, não cumpre os requisitos para ser considerada uma senha forte. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para tela de confirmação de senha fraca."), })
 	
-	@ValidationRules(rulesClass = JnFieldValidationPasswordAndToken.class)
 	@PostMapping("/password")
 	public Map<String, Object> updatePassword(@PathVariable("email") String email,
 			@Schema(example = " {\r\n"
 					+ "    \"password\": \"Jobsnow1!\",\r\n"
 					+ "    \"token\": \"RA48JRFM\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> requestBody, @RequestParam(value = "wordsHash", required =  false)String wordsHash) {
+		CcpJsonFieldsValidations.validate(JnFieldValidationPasswordAndToken.class, requestBody);
 		CcpJsonRepresentation put = new CcpJsonRepresentation(requestBody).put("email", email);
 		CcpJsonRepresentation execute = this.loginService.updatePassword(put);
 		return execute.content;
