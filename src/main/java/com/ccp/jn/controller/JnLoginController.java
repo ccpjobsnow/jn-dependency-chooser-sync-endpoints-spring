@@ -21,6 +21,7 @@ import com.ccp.jn.sync.validations.login.JnFieldValidationPassword;
 import com.ccp.jn.sync.validations.login.JnFieldValidationPasswordAndToken;
 import com.ccp.jn.sync.validations.login.JnFieldValidationPreRegistration;
 import com.ccp.validation.CcpJsonFieldsValidations;
+import com.ccp.validation.annotations.ValidationRules;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -104,6 +105,7 @@ public class JnLoginController {
 			@Schema(example = "{\r\n"
 					+ "    \"password\": \"Jobsnow1!\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> body, @RequestParam(value = "wordsHash", required =  false) String wordsHash) {
+		
 		CcpJsonFieldsValidations.validate(JnFieldValidationPassword.class, body);
 	
 		String remoteAddr = request.getRemoteAddr();
