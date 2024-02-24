@@ -9,31 +9,31 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.ccp.jn.controller.JnLoginController;
-import com.ccp.jn.filters.JnValidEmailFilter;
-import com.ccp.jn.sync.business.JnSyncBusinessNotifyError;
+import com.ccp.jn.controller.ControllerJnLogin;
+import com.ccp.jn.filters.FilterJnValidEmail;
+import com.ccp.jn.sync.business.SyncBusinessJnNotifyError;
 import com.ccp.web.spring.exceptions.handler.CcpSyncExceptionHandler;
 
 @EnableWebMvc
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
 @ComponentScan(basePackageClasses = {
-		JnLoginController.class, 
+		ControllerJnLogin.class, 
 		CcpSyncExceptionHandler.class,
 })
 @SpringBootApplication
-public class JnSyncSpringApplicationStarter {
+public class ApplicationStarterJnSyncSpring {
 	
 	public static void main(String[] args) {
 		
-		CcpSyncExceptionHandler.genericExceptionHandler = new JnSyncBusinessNotifyError();
+		CcpSyncExceptionHandler.genericExceptionHandler = new SyncBusinessJnNotifyError();
 
-		SpringApplication.run(JnSyncSpringApplicationStarter.class, args);
+		SpringApplication.run(ApplicationStarterJnSyncSpring.class, args);
 	}
 
 	@Bean
-	public FilterRegistrationBean<JnValidEmailFilter> filtroJwt() {
-		FilterRegistrationBean<JnValidEmailFilter> filtro = new FilterRegistrationBean<>();
-		filtro.setFilter(new JnValidEmailFilter());
+	public FilterRegistrationBean<FilterJnValidEmail> filtroJwt() {
+		FilterRegistrationBean<FilterJnValidEmail> filtro = new FilterRegistrationBean<>();
+		filtro.setFilter(new FilterJnValidEmail());
 		filtro.addUrlPatterns("/login/*");
 
 		return filtro;

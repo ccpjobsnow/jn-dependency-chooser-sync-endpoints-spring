@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.jn.sync.service.JnSyncAsyncTaskService;
+import com.ccp.jn.sync.service.SyncServiceJnAsyncTask;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,9 +22,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(value = "/async/task")
 @Tag(name = "AsyncTask", description = "Tarefas assíncronas, aquelas que são executadas em segundo plano")
-public class JnAsyncTaskController {
+public class ControllerJnAsyncTask {
 
-	private final JnSyncAsyncTaskService injected = new JnSyncAsyncTaskService();
+	private final SyncServiceJnAsyncTask injected = new SyncServiceJnAsyncTask();
 
 	@Operation(summary = "Obter tarefa status da tarefa assíncrona pelo id")
 	@GetMapping("/{asyncTaskId}")

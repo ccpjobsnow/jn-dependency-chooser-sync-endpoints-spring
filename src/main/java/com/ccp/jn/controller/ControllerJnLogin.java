@@ -16,12 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.constantes.CcpConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.jn.sync.service.JnSyncLoginService;
-import com.ccp.jn.sync.validations.login.JnFieldValidationPassword;
-import com.ccp.jn.sync.validations.login.JnFieldValidationPasswordAndToken;
-import com.ccp.jn.sync.validations.login.JnFieldValidationPreRegistration;
+import com.ccp.jn.sync.service.SyncServiceJnLogin;
+import com.ccp.jn.sync.validations.login.JsonFieldsValidationJnPassword;
+import com.ccp.jn.sync.validations.login.JsonFieldsValidationJnPasswordAndToken;
+import com.ccp.jn.sync.validations.login.JsonFieldsValidationJnPreRegistration;
 import com.ccp.validation.CcpJsonFieldsValidations;
-import com.ccp.validation.annotations.ValidationRules;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,9 +34,9 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping(value = "/login/{email}")
 @Tag(name = "Login", description = "Controles de login para cadastro de token, senha, senha fraca, pre registro, alem de controles de bloqueios diversos tais como: token, senha, senha de desbloqueio de token")
-public class JnLoginController {
+public class ControllerJnLogin {
 
-	private final JnSyncLoginService loginService = new JnSyncLoginService();
+	private final SyncServiceJnLogin loginService = new SyncServiceJnLogin();
 
 	@GetMapping
 	public String teste(@PathVariable("email") String email) {
@@ -106,7 +105,7 @@ public class JnLoginController {
 					+ "    \"password\": \"Jobsnow1!\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> body, @RequestParam(value = "wordsHash", required =  false) String wordsHash) {
 		
-		CcpJsonFieldsValidations.validate(JnFieldValidationPassword.class, body);
+		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPassword.class, body);
 	
 		String remoteAddr = request.getRemoteAddr();
 		Map<String, Object> values = new CcpJsonRepresentation(body).put("ip", remoteAddr).put("email", email).content;
@@ -247,7 +246,7 @@ public class JnLoginController {
 					+ "    \"goal\": \"jobs\",\r\n"
 					+ "    \"channel\": \"linkedin\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> body) {
-		CcpJsonFieldsValidations.validate(JnFieldValidationPreRegistration.class, body);
+		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPreRegistration.class, body);
 		CcpJsonRepresentation cmd = new CcpJsonRepresentation(body);
 		CcpJsonRepresentation put = cmd.put("email", email);
 		this.loginService.savePreRegistration(put);
@@ -297,7 +296,7 @@ public class JnLoginController {
 			@Schema(example = "{\r\n"
 					+ "    \"password\": \"6S1EZ7OA\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> requestBody) {
-		CcpJsonFieldsValidations.validate(JnFieldValidationPassword.class, requestBody);
+		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPassword.class, requestBody);
 		CcpJsonRepresentation put = new CcpJsonRepresentation(requestBody).put("email", email);
 		CcpJsonRepresentation execute = this.loginService.unlockToken(put);
 		return execute.content;
@@ -347,7 +346,7 @@ public class JnLoginController {
 					+ "    \"password\": \"Jobsnow1!\",\r\n"
 					+ "    \"token\": \"RA48JRFM\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> requestBody, @RequestParam(value = "wordsHash", required =  false)String wordsHash) {
-		CcpJsonFieldsValidations.validate(JnFieldValidationPasswordAndToken.class, requestBody);
+		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPasswordAndToken.class, requestBody);
 		CcpJsonRepresentation put = new CcpJsonRepresentation(requestBody).put("email", email);
 		CcpJsonRepresentation execute = this.loginService.updatePassword(put);
 		return execute.content;

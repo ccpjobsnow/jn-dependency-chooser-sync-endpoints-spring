@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.jn.sync.service.JnSyncSupportService;
+import com.ccp.jn.sync.service.SyncServiceJnSupport;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(value = "/support/{chatId}")
 @Tag(name = "Support", description = "API que disponibiliza serviços para o time de suporte do JobsNow")
-public class JnSupportController {
+public class ControllerJnSupport {
 
 	@Operation(summary = "Criar senha temporária para usuário desbloquear token", description = "Quando ocorre? Quando usuário bloqueia o token e solicita desbloqueio deste token, o sistema envia por mensagem instantânea esta solicitação"
 			+ " que nomomento em que vai atender a esta solicitação, evoca este endpoint. "
@@ -39,7 +39,7 @@ public class JnSupportController {
 	@PostMapping("/token/{email}/unlock")
 	public Map<String, Object> answerUnlockTokenRequest(@PathVariable("chatId") String chatId, @PathVariable("email") String email) {
 		Long valueOf = Long.valueOf(chatId);
-		CcpJsonRepresentation result = JnSyncSupportService.unlockToken.execute(valueOf, email);
+		CcpJsonRepresentation result = SyncServiceJnSupport.unlockToken.execute(valueOf, email);
 		return result.content;
 	}
 
@@ -56,7 +56,7 @@ public class JnSupportController {
 	 })	
 	@PostMapping("/token/{email}/resending")
 	public Map<String, Object> resentTokenToTheUser(@PathVariable("chatId") String chatId, @PathVariable("email") String email) {
-		CcpJsonRepresentation result = JnSyncSupportService.resendToken.execute(Long.valueOf(chatId), email);
+		CcpJsonRepresentation result = SyncServiceJnSupport.resendToken.execute(Long.valueOf(chatId), email);
 		return result.content;
 	}
 	

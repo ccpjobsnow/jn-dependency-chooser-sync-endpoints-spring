@@ -22,7 +22,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class JnValidEmailFilter implements Filter{
+public class FilterJnValidEmail implements Filter{
 
 	static {
 		boolean localEnviroment = new CcpStringDecorator("c:\\rh").file().exists();
