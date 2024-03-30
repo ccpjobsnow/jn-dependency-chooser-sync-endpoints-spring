@@ -96,7 +96,7 @@ public class ControllerJnLogin {
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."),
 			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "422", description = "Status: 'Senha digitada incorretamente' <br/><br/> Quando ocorre? Quando o usuário, digitou incorretamente a senha, mas ainda não excedeu o máximo de tentativas de senhas incorretas. <br/><br/>Qual comportamento esperado do front end? Exibir mensagem de erro informando o número de tentativas incorretas de digitação de senha."),
+					@Content(schema = @Schema(example = "")) }, responseCode = "423", description = "Status: 'Senha digitada incorretamente' <br/><br/> Quando ocorre? Quando o usuário, digitou incorretamente a senha, mas ainda não excedeu o máximo de tentativas de senhas incorretas. <br/><br/>Qual comportamento esperado do front end? Exibir mensagem de erro informando o número de tentativas incorretas de digitação de senha."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "429", description = "Status: 'Senha recém bloqueada <br/><br/> Quando ocorre? No exato momento em que o usuário digitou incorretamente a senha, e acaba exceder o máximo de tentativas de senhas incorretas. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário à tela de recadastro de senha."), })
 	@PostMapping
@@ -290,7 +290,7 @@ public class ControllerJnLogin {
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."),
 			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "422", description = "Status: 'Token não bloqueado' <br/><br/> Quando ocorre? Quando o usuário tenta o desbloqueio de um token que não está bloqueado. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário por meio de mensagem que ele está tentando desbloquear um token que não está bloqueado."), })
+					@Content(schema = @Schema(example = "")) }, responseCode = "423", description = "Status: 'Token não bloqueado' <br/><br/> Quando ocorre? Quando o usuário tenta o desbloqueio de um token que não está bloqueado. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário por meio de mensagem que ele está tentando desbloquear um token que não está bloqueado."), })
 	@PatchMapping("/token/lock")
 	public Map<String, Object> unlockToken(@PathVariable("email") String email, 
 			@Schema(example = "{\r\n"
@@ -338,7 +338,7 @@ public class ControllerJnLogin {
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."),
 			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "422", description = "Status: 'A senha não cumpre requisitos para ser uma senha forte' <br/><br/> Quando ocorre? Quando a combinação de caracteres digitadas pelo usuário, não cumpre os requisitos para ser considerada uma senha forte. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para tela de confirmação de senha fraca."), })
+					@Content(schema = @Schema(example = "")) }, responseCode = "423", description = "Status: 'A senha não cumpre requisitos para ser uma senha forte' <br/><br/> Quando ocorre? Quando a combinação de caracteres digitadas pelo usuário, não cumpre os requisitos para ser considerada uma senha forte. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para tela de confirmação de senha fraca."), })
 	
 	@PostMapping("/password")
 	public Map<String, Object> updatePassword(@PathVariable("email") String email,
