@@ -162,9 +162,7 @@
 				<version>2.4.4</version>
 				<configuration>
 					<deploy.stopPreviousVersion>true</deploy.stopPreviousVersion>
-					<cloudSdkHome>C:\Users\Hp
-						Elitebook\AppData\Local\Google\Cloud
-						SDK\google-cloud-sdk</cloudSdkHome>
+					<cloudSdkHome>C:\Users\Hp Elitebook\AppData\Local\Google\Cloud SDK\google-cloud-sdk</cloudSdkHome>
 					<projectId>jn-hmg</projectId>
 					<version>sync-primeiro-deploy4</version>
 				</configuration>
@@ -173,51 +171,5 @@
 
 		</plugins>
 	</build>
-	<profiles>
-		<profile>
-			<id>integration</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-maven-plugin</artifactId>
-						<version>${spring-boot.version}</version>
-						<executions>
-							<execution>
-								<id>pre-integration-test</id>
-								<goals>
-									<goal>start</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>post-integration-test</id>
-								<goals>
-									<goal>stop</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.springdoc</groupId>
-						<artifactId>springdoc-openapi-maven-plugin</artifactId>
-						<version>${springdoc-openapi-maven-plugin.version}</version>
-						<executions>
-							<execution>
-								<phase>integration-test</phase>
-								<goals>
-									<goal>generate</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<apiDocsUrl>http://localhost:8080/api-docs</apiDocsUrl>
-							<outputFileName>openapi.json</outputFileName>
-							<outputDir>${project.build.directory}</outputDir>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 
 </project>

@@ -105,7 +105,7 @@ public class ControllerJnLogin {
 					+ "    \"password\": \"Jobsnow1!\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> body, @RequestParam(value = "wordsHash", required =  false) String wordsHash) {
 		
-		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPassword.class, body);
+		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPassword.class, body, "executeLogin");
 	
 		String remoteAddr = request.getRemoteAddr();
 		Map<String, Object> values = new CcpJsonRepresentation(body).put("ip", remoteAddr).put("email", email).content;
@@ -246,7 +246,7 @@ public class ControllerJnLogin {
 					+ "    \"goal\": \"jobs\",\r\n"
 					+ "    \"channel\": \"linkedin\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> body) {
-		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPreRegistration.class, body);
+		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPreRegistration.class, body, "savePreRegistration");
 		CcpJsonRepresentation cmd = new CcpJsonRepresentation(body);
 		CcpJsonRepresentation put = cmd.put("email", email);
 		this.loginService.savePreRegistration(put);
@@ -296,7 +296,7 @@ public class ControllerJnLogin {
 			@Schema(example = "{\r\n"
 					+ "    \"password\": \"6S1EZ7OA\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> requestBody) {
-		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPassword.class, requestBody);
+		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPassword.class, requestBody, "unlockToken");
 		CcpJsonRepresentation put = new CcpJsonRepresentation(requestBody).put("email", email);
 		CcpJsonRepresentation execute = this.loginService.unlockToken(put);
 		return execute.content;
@@ -346,7 +346,7 @@ public class ControllerJnLogin {
 					+ "    \"password\": \"Jobsnow1!\",\r\n"
 					+ "    \"token\": \"RA48JRFM\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> requestBody, @RequestParam(value = "wordsHash", required =  false)String wordsHash) {
-		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPasswordAndToken.class, requestBody);
+		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPasswordAndToken.class, requestBody, "updatePassword");
 		CcpJsonRepresentation put = new CcpJsonRepresentation(requestBody).put("email", email);
 		CcpJsonRepresentation execute = this.loginService.updatePassword(put);
 		return execute.content;
