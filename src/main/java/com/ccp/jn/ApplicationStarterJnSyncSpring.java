@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.ccp.jn.controller.ControllerJnLogin;
 import com.ccp.jn.filters.FilterJnValidEmail;
-import com.ccp.jn.sync.business.SyncBusinessJnNotifyError;
+import com.ccp.jn.sync.business.utils.SyncBusinessJnNotifyError;
 import com.ccp.web.spring.exceptions.handler.CcpSyncExceptionHandler;
 
 @EnableWebMvc
