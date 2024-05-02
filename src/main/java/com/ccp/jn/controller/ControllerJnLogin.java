@@ -124,8 +124,8 @@ public class ControllerJnLogin {
 			@ApiResponse(responseCode = "409", description = "Status: 'Usuário já logado' <br/><br/> Quando ocorre? Quando já está registrada uma sessão corrente para o usuário que está tentando fazer login neste sistema. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
 			})
 	@RequestMapping(value = "/token", method = RequestMethod.HEAD)
-	public void existsLoginToken(@PathVariable("email") String email) {
-		this.loginService.existsLoginToken(email);
+	public void existsLoginEmail(@PathVariable("email") String email) {
+		this.loginService.existsLoginEmail(email);
 	}
 
 	@Operation(summary = "Executar logout no sistema", description = "Quando ocorre? Quando por qualquer razão, o usuário quis não mais ter acesso a informações onde ele precisava estar devidamente identificado (logado) neste sistema. Para que serve? Serve para o usuário previamente se desassociar das próximas ações que serão feitas por este front end.")
