@@ -160,7 +160,7 @@ public class ControllerJnLogin {
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."), })
 	@PostMapping("/pre-registration")
-	public void savePreRegistration(@PathVariable("email") String email, 
+	public void saveAnswers(@PathVariable("email") String email, 
 			@Schema(example = "{\r\n"
 					+ "    \"goal\": \"jobs\",\r\n"
 					+ "    \"channel\": \"linkedin\"\r\n"
@@ -168,7 +168,7 @@ public class ControllerJnLogin {
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPreRegistration.class, body, "savePreRegistration");
 		CcpJsonRepresentation cmd = new CcpJsonRepresentation(body);
 		CcpJsonRepresentation put = cmd.put("email", email);
-		this.loginService.savePreRegistration(put);
+		this.loginService.saveAnswers(put);
 	}
 
 	@Operation(summary = "Salvamento de senha", description = "Quando ocorre? Logo após o sistema constatar que o usuário está com senha bloqueada ou faltando, login já em uso ou se o usuário quer alterar senha. Para que serve? Serve para o usuário cadastrar senha de acesso no sistema. O parametro words hash é informado pelo front end (ou nao) por query parameter, se acaso ele for informado e estiver igual ao que o back end tem, o wordsHash não será devolvido na response desse método. Caso este parâmetro não for informado, ou se não for o mesmo que está no back end, então a lista do wordsHash é retornada juntamente com o novo wordsHash e o front deverá salvar no application storage (memória de longa duração do navegador)")

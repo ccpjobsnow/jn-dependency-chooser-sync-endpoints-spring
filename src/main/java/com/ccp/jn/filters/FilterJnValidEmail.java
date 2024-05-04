@@ -3,7 +3,7 @@ package com.ccp.jn.filters;
 import com.ccp.decorators.CcpStringDecorator;
 import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.implementations.cache.gcp.memcache.CcpGcpMemCache;
-import com.ccp.implementations.db.dao.elasticsearch.CcpElasticSearchDao;
+import com.ccp.implementations.db.crud.elasticsearch.CcpElasticSearchCrud;
 import com.ccp.implementations.db.utils.elasticsearch.CcpElasticSearchDbRequest;
 import com.ccp.implementations.file.bucket.gcp.CcpGcpFileBucket;
 import com.ccp.implementations.http.apache.mime.CcpApacheMimeHttp;
@@ -36,7 +36,7 @@ public class FilterJnValidEmail implements Filter{
 				,new CcpElasticSearchDbRequest()
 				,new CcpGcpMemCache()
 				,new CcpApacheMimeHttp() 
-				,new CcpElasticSearchDao()
+				,new CcpElasticSearchCrud()
 		);
 
 	}
