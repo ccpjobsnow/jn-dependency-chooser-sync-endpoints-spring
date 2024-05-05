@@ -41,7 +41,7 @@ public class FilterJnValidEmail implements Filter{
 
 	}
 	
-	@Override
+	
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain){
 
 		HttpServletRequest request = (HttpServletRequest) req;
@@ -83,12 +83,12 @@ public class FilterJnValidEmail implements Filter{
 
 	}
 
-	@Override
+	
 	public void init(FilterConfig filterConfig) throws ServletException {
 		
 	}
 
-	@Override
+	
 	public void destroy() {
 		
 	}
