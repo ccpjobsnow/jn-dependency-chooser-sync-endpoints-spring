@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpJsonRepresentation;
@@ -19,6 +18,7 @@ import com.ccp.jn.sync.validations.login.JsonFieldsValidationJnPassword;
 import com.ccp.jn.sync.validations.login.JsonFieldsValidationJnPasswordAndToken;
 import com.ccp.jn.sync.validations.login.JsonFieldsValidationJnPreRegistration;
 import com.ccp.validation.CcpJsonFieldsValidations;
+import com.ccp.web.spring.utils.CcpSyncSessionValuesExtractor;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,7 +32,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping(value = "/login/{email}")
 @Tag(name = "Login", description = "Controles de login para cadastro de token, senha, senha fraca, pre registro, alem de controles de bloqueios diversos tais como: token, senha, senha de desbloqueio de token")
-public class ControllerJnLogin {
+public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
 
 	private final SyncServiceJnLogin loginService = new SyncServiceJnLogin();
 
@@ -73,12 +73,13 @@ public class ControllerJnLogin {
 	public Map<String, Object> executeLogin(HttpServletRequest request, @PathVariable("email") String email,
 			@Schema(example = "{\r\n"
 					+ "    \"password\": \"Jobsnow1!\"\r\n"
-					+ "  }") @RequestBody Map<String, Object> body, @RequestParam(value = "wordsHash", required =  false) String wordsHash) {
+					+ "  }") @RequestBody Map<String, Object> body) {
 		
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPassword.class, body, "executeLogin");
-	
-		String remoteAddr = request.getRemoteAddr();
-		Map<String, Object> values = new CcpJsonRepresentation(body).put("ip", remoteAddr).put("email", email).content;
+
+		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
+		
+		CcpJsonRepresentation values = sessionValues.putAll(body);
 		CcpJsonRepresentation execute = this.loginService.executeLogin(values);
 		return execute.content;
 	}
@@ -136,8 +137,9 @@ public class ControllerJnLogin {
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "404", description = "Status: 'Usuário não logado no sistema' <br/><br/> Quando ocorre? Quando o o usuário não está com sessão ativa neste sistema. <br/><br/>Qual comportamento esperado do front end? Encerramento do modal de login."), })
 	@DeleteMapping
-	public void executeLogout(@PathVariable("email") String email) {
-		this.loginService.executeLogout(email);
+	public void executeLogout(@PathVariable("email") String email, HttpServletRequest request) {
+		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
+		this.loginService.executeLogout(sessionValues);
 	}
 
 	@Operation(summary = "Salvar pré registro", description = "Quando ocorre? Logo após o usuário tentar executar login e o sistema constatar ausência de dados de pré registro. Para que serve? Serve para o usuário cadadtrar dados de pré registro.")
@@ -214,9 +216,13 @@ public class ControllerJnLogin {
 			@Schema(example = " {\r\n"
 					+ "    \"password\": \"Jobsnow1!\",\r\n"
 					+ "    \"token\": \"RA48JRFM\"\r\n"
-					+ "  }") @RequestBody Map<String, Object> requestBody, @RequestParam(value = "wordsHash", required =  false)String wordsHash) {
+					+ "  }") @RequestBody 
+			Map<String, Object> requestBody,
+			HttpServletRequest request) {
+		
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPasswordAndToken.class, requestBody, "updatePassword");
-		CcpJsonRepresentation put = new CcpJsonRepresentation(requestBody).put("email", email);
+		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
+		CcpJsonRepresentation put = sessionValues.putAll(requestBody);
 		CcpJsonRepresentation execute = this.loginService.updatePassword(put);
 		return execute.content;
 	}
@@ -247,9 +253,16 @@ public class ControllerJnLogin {
 					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."), })
 	@PostMapping("/token/language/{language}")
 	public Map<String, Object> createLoginToken(@PathVariable("email") String email,
-			@PathVariable("language") String language) {
+			@PathVariable("language") String language,
+			HttpServletRequest request
+			) {
 		
-		CcpJsonRepresentation createLoginToken = this.loginService.createLoginToken(email, language);
+		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
+		
+		CcpJsonRepresentation put = sessionValues.put("language", language);
+		
+		CcpJsonRepresentation createLoginToken = this.loginService.createLoginToken(put);
+		
 		return createLoginToken.content;
 	}
 
