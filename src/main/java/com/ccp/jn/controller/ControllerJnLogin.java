@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.jn.sync.service.SyncServiceJnLogin;
-import com.ccp.jn.sync.validations.login.JsonFieldsValidationJnPassword;
-import com.ccp.jn.sync.validations.login.JsonFieldsValidationJnPasswordAndToken;
-import com.ccp.jn.sync.validations.login.JsonFieldsValidationJnPreRegistration;
 import com.ccp.validation.CcpJsonFieldsValidations;
 import com.ccp.web.spring.utils.CcpSyncSessionValuesExtractor;
+import com.jn.commons.validations.JsonFieldsValidationJnPassword;
+import com.jn.commons.validations.JsonFieldsValidationJnPasswordAndToken;
+import com.jn.commons.validations.JsonFieldsValidationJnLoginAnswers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -167,7 +167,7 @@ public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
 					+ "    \"goal\": \"jobs\",\r\n"
 					+ "    \"channel\": \"linkedin\"\r\n"
 					+ "  }") @RequestBody Map<String, Object> body) {
-		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPreRegistration.class, body, "savePreRegistration");
+		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnLoginAnswers.class, body, "savePreRegistration");
 		CcpJsonRepresentation cmd = new CcpJsonRepresentation(body);
 		CcpJsonRepresentation put = cmd.put("email", email);
 		this.loginService.saveAnswers(put);
