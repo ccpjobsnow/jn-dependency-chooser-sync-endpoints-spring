@@ -107,9 +107,10 @@ public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."), })
 	@PostMapping("/token")
-	public Map<String, Object> createLoginEmail(@PathVariable("email") String email) {
-		
-		CcpJsonRepresentation createLoginToken = this.loginService.createLoginEmail(email);
+	public Map<String, Object> createLoginEmail(@PathVariable("email") String email, HttpServletRequest request) {
+		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
+
+		CcpJsonRepresentation createLoginToken = this.loginService.createLoginEmail(sessionValues);
 		return createLoginToken.content;
 	}
 
@@ -125,8 +126,9 @@ public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
 			@ApiResponse(responseCode = "409", description = "Status: 'Usuário já logado' <br/><br/> Quando ocorre? Quando já está registrada uma sessão corrente para o usuário que está tentando fazer login neste sistema. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
 			})
 	@RequestMapping(value = "/token", method = RequestMethod.HEAD)
-	public void existsLoginEmail(@PathVariable("email") String email) {
-		this.loginService.existsLoginEmail(email);
+	public void existsLoginEmail(@PathVariable("email") String email, HttpServletRequest request) {
+		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
+		this.loginService.existsLoginEmail(sessionValues);
 	}
 
 	@Operation(summary = "Executar logout no sistema", description = "Quando ocorre? Quando por qualquer razão, o usuário quis não mais ter acesso a informações onde ele precisava estar devidamente identificado (logado) neste sistema. Para que serve? Serve para o usuário previamente se desassociar das próximas ações que serão feitas por este front end.")
@@ -166,11 +168,12 @@ public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
 			@Schema(example = "{\r\n"
 					+ "    \"goal\": \"jobs\",\r\n"
 					+ "    \"channel\": \"linkedin\"\r\n"
-					+ "  }") @RequestBody Map<String, Object> body) {
+					+ "  }") @RequestBody Map<String, Object> body, HttpServletRequest request) {
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnLoginAnswers.class, body, "savePreRegistration");
 		CcpJsonRepresentation cmd = new CcpJsonRepresentation(body);
-		CcpJsonRepresentation put = cmd.put("email", email);
-		this.loginService.saveAnswers(put);
+		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
+		CcpJsonRepresentation putAll = sessionValues.putAll(cmd);
+		this.loginService.saveAnswers(putAll);
 	}
 
 	@Operation(summary = "Salvamento de senha", description = "Quando ocorre? Logo após o sistema constatar que o usuário está com senha bloqueada ou faltando, login já em uso ou se o usuário quer alterar senha. Para que serve? Serve para o usuário cadastrar senha de acesso no sistema. O parametro words hash é informado pelo front end (ou nao) por query parameter, se acaso ele for informado e estiver igual ao que o back end tem, o wordsHash não será devolvido na response desse método. Caso este parâmetro não for informado, ou se não for o mesmo que está no back end, então a lista do wordsHash é retornada juntamente com o novo wordsHash e o front deverá salvar no application storage (memória de longa duração do navegador)")
