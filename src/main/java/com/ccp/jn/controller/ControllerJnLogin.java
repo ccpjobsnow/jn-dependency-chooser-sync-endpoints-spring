@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,10 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.jn.sync.service.SyncServiceJnLogin;
 import com.ccp.validation.CcpJsonFieldsValidations;
-import com.ccp.web.spring.utils.CcpSyncSessionValuesExtractor;
+import com.jn.commons.validations.JsonFieldsValidationJnLoginAnswers;
 import com.jn.commons.validations.JsonFieldsValidationJnPassword;
 import com.jn.commons.validations.JsonFieldsValidationJnPasswordAndToken;
-import com.jn.commons.validations.JsonFieldsValidationJnLoginAnswers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,20 +24,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/login/{email}")
 @Tag(name = "Login", description = "Controles de login para cadastro de token, senha, senha fraca, pre registro, alem de controles de bloqueios diversos tais como: token, senha, senha de desbloqueio de token")
-public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
+public class ControllerJnLogin{
 
 	private final SyncServiceJnLogin loginService = new SyncServiceJnLogin();
-
-	@GetMapping
-	public String teste(@PathVariable("email") String email) {
-		return "oiu";
-	}
 
 	@Operation(summary = "Executar Login", description = "Quando ocorre? Logo após o usuário digitar sua senha. Para que serve? Serve para o usuário executar login no sistema, gerando um token que será a prova "
 			+ " (nas próximas requisições) que o requisitante (frontend), merece ter leitura ou escrita de certos recursos deste bando de dados. "
@@ -58,7 +50,7 @@ public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "400", description = "Status: 'Email inválido' <br/><br/> Quando ocorre? Quando a url path recebe um conjunto de caracteres que não representa um e-mail válido.<br/><br/>Qual comportamento esperado do front end? Apresentar erro genérico de sistema para o usuário."),
 			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "401", description = "Status: 'Senha pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou logar várias vezes com a mesma senha incorreta.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
+					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou logar várias vezes com a mesma senha incorreta.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "403", description = "Status: 'Token bloqueado' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou várias vezes alterar sua senha fazendo uso de token incorreto.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de requisição de desbloqueio de token."),
 			@ApiResponse(content = {
@@ -70,17 +62,15 @@ public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "429", description = "Status: 'Senha recém bloqueada <br/><br/> Quando ocorre? No exato momento em que o usuário digitou incorretamente a senha, e acaba exceder o máximo de tentativas de senhas incorretas. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário à tela de recadastro de senha."), })
 	@PostMapping
-	public Map<String, Object> executeLogin(HttpServletRequest request, @PathVariable("email") String email,
-			@Schema(example = "{\r\n"
-					+ "    \"password\": \"Jobsnow1!\"\r\n"
-					+ "  }") @RequestBody Map<String, Object> body) {
+	public Map<String, Object> executeLogin(@RequestBody Map<String, Object> body) {
 		
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPassword.class, body, "executeLogin");
 
-		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
+		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
 		
-		CcpJsonRepresentation values = sessionValues.putAll(body);
-		CcpJsonRepresentation execute = this.loginService.executeLogin(values);
+		CcpJsonRepresentation putAll = values.putAll(body);
+		
+		CcpJsonRepresentation execute = this.loginService.executeLogin(putAll);
 		return execute.content;
 	}
 
@@ -97,20 +87,18 @@ public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "400", description = "Status: 'Email inválido' <br/><br/> Quando ocorre? Quando a url path recebe um conjunto de caracteres que não representa um e-mail válido.<br/><br/>Qual comportamento esperado do front end? Apresentar erro genérico de sistema para o usuário."),
 			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "401", description = "Status: 'Senha pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou logar várias vezes com a mesma senha incorreta.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
+					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou logar várias vezes com a mesma senha incorreta.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "403", description = "Status: 'Token bloqueado' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou várias vezes alterar sua senha fazendo uso de token incorreto.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de requisição de desbloqueio de token."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "409", description = "Status: 'Usuário já logado' <br/><br/> Quando ocorre? Quando já está registrada uma sessão corrente para o usuário que está tentando fazer login neste sistema. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
-			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "420", description = "Status: 'Token pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário bloqueou o token (digitando-o incorretamente por várias vezes na tela de alteração de senha) e então requisita desbloqueio de token, porém o suporte ainda não o atendeu. <br/><br/>Qual comportamento esperado do front end? Exibir uma mensagem de que em breve o suporte do JobsNow entrará em contato com ele por meio dos contatos informados e redirecioná-lo para a tela de desbloqueio de token."),
-			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."), })
+			})
 	@PostMapping("/token")
-	public Map<String, Object> createLoginEmail(@PathVariable("email") String email, HttpServletRequest request) {
-		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
+	public Map<String, Object> createLoginEmail(@RequestBody Map<String, Object> body) {
+		
+		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
 
-		CcpJsonRepresentation createLoginToken = this.loginService.createLoginEmail(sessionValues);
+		CcpJsonRepresentation createLoginToken = this.loginService.createLoginEmail(values);
 		return createLoginToken.content;
 	}
 
@@ -120,15 +108,15 @@ public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
 			@ApiResponse(responseCode = "201", description = "Status: 'O cadastro de Pre registro está pendente' <br/><br/> Quando ocorre? Quando o usuário deixou de cadastrar dados do pré registro<br/><br/>Qual comportamento esperado do front end? Redirecionamento para a tela de cadastro do pré registro."),
 			@ApiResponse(responseCode = "202", description = "Status: 'O cadastro de  senha está pendente' <br/><br/> Quando ocorre? Quando o usuário deixou cadastrar senha<br/><br/>Qual comportamento esperado do front end? Redirecionamento para a tela de cadastro da senha."),
 			@ApiResponse(responseCode = "400", description = "Status: 'Email inválido' <br/><br/> Quando ocorre? Quando a url path recebe um conjunto de caracteres que não representa um e-mail válido.<br/><br/>Qual comportamento esperado do front end? Apresentar erro genérico de sistema para o usuário."),
-			@ApiResponse(responseCode = "401", description = "Status: 'Senha pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou logar várias vezes com a mesma senha incorreta.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
+			@ApiResponse(responseCode = "421", description = "Status: 'Senha pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou logar várias vezes com a mesma senha incorreta.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
 			@ApiResponse(responseCode = "403", description = "Status: 'Token bloqueado' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou várias vezes alterar sua senha fazendo uso de token incorreto.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de requisição de desbloqueio de token."),
 			@ApiResponse(responseCode = "404", description = "Status: 'Usuário novo no sistema' <br/><br/> Quando ocorre? Quando o e-mail do usuário é desconhecido por este banco de dados. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de confirmação de e-mail."),
 			@ApiResponse(responseCode = "409", description = "Status: 'Usuário já logado' <br/><br/> Quando ocorre? Quando já está registrada uma sessão corrente para o usuário que está tentando fazer login neste sistema. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
 			})
 	@RequestMapping(value = "/token", method = RequestMethod.HEAD)
-	public void existsLoginEmail(@PathVariable("email") String email, HttpServletRequest request) {
-		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
-		this.loginService.existsLoginEmail(sessionValues);
+	public void existsLoginEmail(@RequestBody String body) {
+		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
+		this.loginService.existsLoginEmail(values);
 	}
 
 	@Operation(summary = "Executar logout no sistema", description = "Quando ocorre? Quando por qualquer razão, o usuário quis não mais ter acesso a informações onde ele precisava estar devidamente identificado (logado) neste sistema. Para que serve? Serve para o usuário previamente se desassociar das próximas ações que serão feitas por este front end.")
@@ -139,9 +127,9 @@ public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "404", description = "Status: 'Usuário não logado no sistema' <br/><br/> Quando ocorre? Quando o o usuário não está com sessão ativa neste sistema. <br/><br/>Qual comportamento esperado do front end? Encerramento do modal de login."), })
 	@DeleteMapping
-	public void executeLogout(@PathVariable("email") String email, HttpServletRequest request) {
-		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
-		this.loginService.executeLogout(sessionValues);
+	public void executeLogout(@RequestBody String body) {
+		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
+		this.loginService.executeLogout(values);
 	}
 
 	@Operation(summary = "Salvar pré registro", description = "Quando ocorre? Logo após o usuário tentar executar login e o sistema constatar ausência de dados de pré registro. Para que serve? Serve para o usuário cadadtrar dados de pré registro.")
@@ -152,28 +140,19 @@ public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "400", description = "Status: 'Email inválido' <br/><br/> Quando ocorre? Quando a url path recebe um conjunto de caracteres que não representa um e-mail válido.<br/><br/>Qual comportamento esperado do front end? Apresentar erro genérico de sistema para o usuário."),
 			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "401", description = "Status: 'Senha pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou logar várias vezes com a mesma senha incorreta.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
+					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou logar várias vezes com a mesma senha incorreta.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "403", description = "Status: 'Token bloqueado' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou várias vezes alterar sua senha fazendo uso de token incorreto.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de requisição de desbloqueio de token."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "404", description = "Status: 'Usuário novo no sistema' <br/><br/> Quando ocorre? Quando o e-mail do usuário é desconhecido por este banco de dados. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de confirmação de e-mail."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "409", description = "Status: 'Usuário já logado' <br/><br/> Quando ocorre? Quando já está registrada uma sessão corrente para o usuário que está tentando fazer login neste sistema. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
-			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "420", description = "Status: 'Token pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário bloqueou o token (digitando-o incorretamente por várias vezes na tela de alteração de senha) e então requisita desbloqueio de token, porém o suporte ainda não o atendeu. <br/><br/>Qual comportamento esperado do front end? Exibir uma mensagem de que em breve o suporte do JobsNow entrará em contato com ele por meio dos contatos informados e redirecioná-lo para a tela de desbloqueio de token."),
-			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."), })
+			})
 	@PostMapping("/pre-registration")
-	public void saveAnswers(@PathVariable("email") String email, 
-			@Schema(example = "{\r\n"
-					+ "    \"goal\": \"jobs\",\r\n"
-					+ "    \"channel\": \"linkedin\"\r\n"
-					+ "  }") @RequestBody Map<String, Object> body, HttpServletRequest request) {
+	public void saveAnswers(@RequestBody Map<String, Object> body) {
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnLoginAnswers.class, body, "savePreRegistration");
-		CcpJsonRepresentation cmd = new CcpJsonRepresentation(body);
-		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
-		CcpJsonRepresentation putAll = sessionValues.putAll(cmd);
-		this.loginService.saveAnswers(putAll);
+		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
+		this.loginService.saveAnswers(values);
 	}
 
 	@Operation(summary = "Salvamento de senha", description = "Quando ocorre? Logo após o sistema constatar que o usuário está com senha bloqueada ou faltando, login já em uso ou se o usuário quer alterar senha. Para que serve? Serve para o usuário cadastrar senha de acesso no sistema. O parametro words hash é informado pelo front end (ou nao) por query parameter, se acaso ele for informado e estiver igual ao que o back end tem, o wordsHash não será devolvido na response desse método. Caso este parâmetro não for informado, ou se não for o mesmo que está no back end, então a lista do wordsHash é retornada juntamente com o novo wordsHash e o front deverá salvar no application storage (memória de longa duração do navegador)")
@@ -202,31 +181,20 @@ public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "400", description = "Status: 'Email inválido' <br/><br/> Quando ocorre? Quando a url path recebe um conjunto de caracteres que não representa um e-mail válido.<br/><br/>Qual comportamento esperado do front end? Apresentar erro genérico de sistema para o usuário."),
 			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "401", description = "Status: 'Token digitado incorretamente' <br/><br/> Quando ocorre? Quando o usuário, digitou incorretamente o token, mas ainda não excedeu o máximo de tentativas de senhas incorretas. <br/><br/>Qual comportamento esperado do front end? Exibir mensagem de erro informando o número de tentativas incorretas de digitação de token."),
+					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Token digitado incorretamente' <br/><br/> Quando ocorre? Quando o usuário, digitou incorretamente o token, mas ainda não excedeu o máximo de tentativas de senhas incorretas. <br/><br/>Qual comportamento esperado do front end? Exibir mensagem de erro informando o número de tentativas incorretas de digitação de token."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "403", description = "Status: 'Token bloqueado' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou várias vezes alterar sua senha fazendo uso de token incorreto.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de requisição de desbloqueio de token."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "404", description = "Status: 'Usuário novo no sistema' <br/><br/> Quando ocorre? Quando o e-mail do usuário é desconhecido por este banco de dados. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de confirmação de e-mail."),
 			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "420", description = "Status: 'Token pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário bloqueou o token (digitando-o incorretamente por várias vezes na tela de alteração de senha) e então requisita desbloqueio de token, porém o suporte ainda não o atendeu. <br/><br/>Qual comportamento esperado do front end? Exibir uma mensagem de que em breve o suporte do JobsNow entrará em contato com ele por meio dos contatos informados e redirecioná-lo para a tela de desbloqueio de token."),
-			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."),
-			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "423", description = "Status: 'A senha não cumpre requisitos para ser uma senha forte' <br/><br/> Quando ocorre? Quando a combinação de caracteres digitadas pelo usuário, não cumpre os requisitos para ser considerada uma senha forte. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para tela de confirmação de senha fraca."), })
 	
 	@PostMapping("/password")
-	public Map<String, Object> updatePassword(@PathVariable("email") String email,
-			@Schema(example = " {\r\n"
-					+ "    \"password\": \"Jobsnow1!\",\r\n"
-					+ "    \"token\": \"RA48JRFM\"\r\n"
-					+ "  }") @RequestBody 
-			Map<String, Object> requestBody,
-			HttpServletRequest request) {
+	public Map<String, Object> updatePassword(@RequestBody Map<String, Object> body) {
 		
-		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPasswordAndToken.class, requestBody, "updatePassword");
-		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
-		CcpJsonRepresentation put = sessionValues.putAll(requestBody);
-		CcpJsonRepresentation execute = this.loginService.updatePassword(put);
+		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPasswordAndToken.class, body, "updatePassword");
+		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
+		CcpJsonRepresentation execute = this.loginService.updatePassword(values);
 		return execute.content;
 	}
 	@Operation(summary = "Criar email para login", description = "Quando ocorre? Logo após ser constatado que é primeiro acesso deste usuário e ele confirmar o e-mail. Para que serve? Serve para o usuário requisitar envio de token para o seu e-mail e ele poder usar esse token para cadastrar senha. "
@@ -245,24 +213,21 @@ public class ControllerJnLogin implements CcpSyncSessionValuesExtractor{
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "400", description = "Status: 'Email inválido' <br/><br/> Quando ocorre? Quando a url path recebe um conjunto de caracteres que não representa um e-mail válido.<br/><br/>Qual comportamento esperado do front end? Apresentar erro genérico de sistema para o usuário."),
 			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "401", description = "Status: 'Senha pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou logar várias vezes com a mesma senha incorreta.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
+					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou logar várias vezes com a mesma senha incorreta.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "403", description = "Status: 'Token bloqueado' <br/><br/> Quando ocorre? Quando o usuário, anteriormente tentou várias vezes alterar sua senha fazendo uso de token incorreto.<br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de requisição de desbloqueio de token."),
 			@ApiResponse(content = {
 					@Content(schema = @Schema(example = "")) }, responseCode = "409", description = "Status: 'Usuário já logado' <br/><br/> Quando ocorre? Quando já está registrada uma sessão corrente para o usuário que está tentando fazer login neste sistema. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para a tela de alteração de senha."),
-			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "420", description = "Status: 'Token pendente de desbloqueio' <br/><br/> Quando ocorre? Quando o usuário bloqueou o token (digitando-o incorretamente por várias vezes na tela de alteração de senha) e então requisita desbloqueio de token, porém o suporte ainda não o atendeu. <br/><br/>Qual comportamento esperado do front end? Exibir uma mensagem de que em breve o suporte do JobsNow entrará em contato com ele por meio dos contatos informados e redirecioná-lo para a tela de desbloqueio de token."),
-			@ApiResponse(content = {
-					@Content(schema = @Schema(example = "")) }, responseCode = "421", description = "Status: 'Senha de desbloqueio de token está bloqueada' <br/><br/> Quando ocorre? Quando o usuário, na tela de desbloqueio de token, por diversas vezes errou a digitação da senha de desbloqueio de token. <br/><br/>Qual comportamento esperado do front end? Informar ao usuário que ele está temporariamente bloqueado no acesso ao sistema e redirecioná-lo para a primeira tela do fluxo de login, para o caso de ele querer tentar com outro e-mail."), })
+			})
 	@PostMapping("/token/language/{language}")
-	public Map<String, Object> createLoginToken(@PathVariable("email") String email,
+	public Map<String, Object> createLoginToken(
 			@PathVariable("language") String language,
-			HttpServletRequest request
+			@RequestBody Map<String, Object> body
 			) {
 		
-		CcpJsonRepresentation sessionValues = this.getSessionValues(request, email);
+		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
 		
-		CcpJsonRepresentation put = sessionValues.put("language", language);
+		CcpJsonRepresentation put = values.put("language", language);
 		
 		CcpJsonRepresentation createLoginToken = this.loginService.createLoginToken(put);
 		
