@@ -66,9 +66,9 @@ public class ControllerJnLogin{
 		
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPassword.class, body, "executeLogin");
 
-		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
+		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
 		
-		CcpJsonRepresentation putAll = values.putAll(body);
+		CcpJsonRepresentation putAll = json.putAll(body);
 		
 		CcpJsonRepresentation execute = this.loginService.executeLogin(putAll);
 		return execute.content;
@@ -96,9 +96,9 @@ public class ControllerJnLogin{
 	@PostMapping("/token")
 	public Map<String, Object> createLoginEmail(@RequestBody Map<String, Object> body) {
 		
-		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
+		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
 
-		CcpJsonRepresentation createLoginToken = this.loginService.createLoginEmail(values);
+		CcpJsonRepresentation createLoginToken = this.loginService.createLoginEmail(json);
 		return createLoginToken.content;
 	}
 
@@ -115,8 +115,8 @@ public class ControllerJnLogin{
 			})
 	@RequestMapping(value = "/token", method = RequestMethod.HEAD)
 	public void existsLoginEmail(@RequestBody String body) {
-		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
-		this.loginService.existsLoginEmail(values);
+		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
+		this.loginService.existsLoginEmail(json);
 	}
 
 	@Operation(summary = "Executar logout no sistema", description = "Quando ocorre? Quando por qualquer razão, o usuário quis não mais ter acesso a informações onde ele precisava estar devidamente identificado (logado) neste sistema. Para que serve? Serve para o usuário previamente se desassociar das próximas ações que serão feitas por este front end.")
@@ -128,8 +128,8 @@ public class ControllerJnLogin{
 					@Content(schema = @Schema(example = "")) }, responseCode = "404", description = "Status: 'Usuário não logado no sistema' <br/><br/> Quando ocorre? Quando o o usuário não está com sessão ativa neste sistema. <br/><br/>Qual comportamento esperado do front end? Encerramento do modal de login."), })
 	@DeleteMapping
 	public void executeLogout(@RequestBody String body) {
-		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
-		this.loginService.executeLogout(values);
+		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
+		this.loginService.executeLogout(json);
 	}
 
 	@Operation(summary = "Salvar pré registro", description = "Quando ocorre? Logo após o usuário tentar executar login e o sistema constatar ausência de dados de pré registro. Para que serve? Serve para o usuário cadadtrar dados de pré registro.")
@@ -151,8 +151,8 @@ public class ControllerJnLogin{
 	@PostMapping("/pre-registration")
 	public void saveAnswers(@RequestBody Map<String, Object> body) {
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnLoginAnswers.class, body, "savePreRegistration");
-		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
-		this.loginService.saveAnswers(values);
+		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
+		this.loginService.saveAnswers(json);
 	}
 
 	@Operation(summary = "Salvamento de senha", description = "Quando ocorre? Logo após o sistema constatar que o usuário está com senha bloqueada ou faltando, login já em uso ou se o usuário quer alterar senha. Para que serve? Serve para o usuário cadastrar senha de acesso no sistema. O parametro words hash é informado pelo front end (ou nao) por query parameter, se acaso ele for informado e estiver igual ao que o back end tem, o wordsHash não será devolvido na response desse método. Caso este parâmetro não for informado, ou se não for o mesmo que está no back end, então a lista do wordsHash é retornada juntamente com o novo wordsHash e o front deverá salvar no application storage (memória de longa duração do navegador)")
@@ -193,8 +193,8 @@ public class ControllerJnLogin{
 	public Map<String, Object> updatePassword(@RequestBody Map<String, Object> body) {
 		
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPasswordAndToken.class, body, "updatePassword");
-		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
-		CcpJsonRepresentation execute = this.loginService.updatePassword(values);
+		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
+		CcpJsonRepresentation execute = this.loginService.updatePassword(json);
 		return execute.content;
 	}
 	@Operation(summary = "Criar email para login", description = "Quando ocorre? Logo após ser constatado que é primeiro acesso deste usuário e ele confirmar o e-mail. Para que serve? Serve para o usuário requisitar envio de token para o seu e-mail e ele poder usar esse token para cadastrar senha. "
@@ -225,9 +225,9 @@ public class ControllerJnLogin{
 			@RequestBody Map<String, Object> body
 			) {
 		
-		CcpJsonRepresentation values = new CcpJsonRepresentation(body);
+		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
 		
-		CcpJsonRepresentation put = values.put("language", language);
+		CcpJsonRepresentation put = json.put("language", language);
 		
 		CcpJsonRepresentation createLoginToken = this.loginService.createLoginToken(put);
 		
