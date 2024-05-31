@@ -31,8 +31,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Login", description = "Controles de login para cadastro de token, senha, senha fraca, pre registro, alem de controles de bloqueios diversos tais como: token, senha, senha de desbloqueio de token")
 public class ControllerJnLogin{
 
-	private final SyncServiceJnLogin loginService = new SyncServiceJnLogin();
-
 	@Operation(summary = "Executar Login", description = "Quando ocorre? Logo após o usuário digitar sua senha. Para que serve? Serve para o usuário executar login no sistema, gerando um token que será a prova "
 			+ " (nas próximas requisições) que o requisitante (frontend), merece ter leitura ou escrita de certos recursos deste bando de dados. "
 			+ "O parametro words hash é informado pelo front end (ou nao) por query parameter, se acaso ele for informado e estiver igual ao que o "
@@ -70,7 +68,7 @@ public class ControllerJnLogin{
 		
 		CcpJsonRepresentation putAll = json.putAll(body);
 		
-		CcpJsonRepresentation execute = this.loginService.executeLogin(putAll);
+		CcpJsonRepresentation execute = SyncServiceJnLogin.INSTANCE.executeLogin(putAll);
 		return execute.content;
 	}
 
@@ -98,7 +96,7 @@ public class ControllerJnLogin{
 		
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
 
-		CcpJsonRepresentation createLoginToken = this.loginService.createLoginEmail(json);
+		CcpJsonRepresentation createLoginToken = SyncServiceJnLogin.INSTANCE.createLoginEmail(json);
 		return createLoginToken.content;
 	}
 
@@ -116,7 +114,7 @@ public class ControllerJnLogin{
 	@RequestMapping(value = "/token", method = RequestMethod.HEAD)
 	public void existsLoginEmail(@RequestBody String body) {
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
-		this.loginService.existsLoginEmail(json);
+		SyncServiceJnLogin.INSTANCE.existsLoginEmail(json);
 	}
 
 	@Operation(summary = "Executar logout no sistema", description = "Quando ocorre? Quando por qualquer razão, o usuário quis não mais ter acesso a informações onde ele precisava estar devidamente identificado (logado) neste sistema. Para que serve? Serve para o usuário previamente se desassociar das próximas ações que serão feitas por este front end.")
@@ -129,7 +127,7 @@ public class ControllerJnLogin{
 	@DeleteMapping
 	public void executeLogout(@RequestBody String body) {
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
-		this.loginService.executeLogout(json);
+		SyncServiceJnLogin.INSTANCE.executeLogout(json);
 	}
 
 	@Operation(summary = "Salvar pré registro", description = "Quando ocorre? Logo após o usuário tentar executar login e o sistema constatar ausência de dados de pré registro. Para que serve? Serve para o usuário cadadtrar dados de pré registro.")
@@ -152,7 +150,7 @@ public class ControllerJnLogin{
 	public void saveAnswers(@RequestBody Map<String, Object> body) {
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnLoginAnswers.class, body, "savePreRegistration");
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
-		this.loginService.saveAnswers(json);
+		SyncServiceJnLogin.INSTANCE.saveAnswers(json);
 	}
 
 	@Operation(summary = "Salvamento de senha", description = "Quando ocorre? Logo após o sistema constatar que o usuário está com senha bloqueada ou faltando, login já em uso ou se o usuário quer alterar senha. Para que serve? Serve para o usuário cadastrar senha de acesso no sistema. O parametro words hash é informado pelo front end (ou nao) por query parameter, se acaso ele for informado e estiver igual ao que o back end tem, o wordsHash não será devolvido na response desse método. Caso este parâmetro não for informado, ou se não for o mesmo que está no back end, então a lista do wordsHash é retornada juntamente com o novo wordsHash e o front deverá salvar no application storage (memória de longa duração do navegador)")
@@ -194,7 +192,7 @@ public class ControllerJnLogin{
 		
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPasswordAndToken.class, body, "updatePassword");
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
-		CcpJsonRepresentation execute = this.loginService.updatePassword(json);
+		CcpJsonRepresentation execute = SyncServiceJnLogin.INSTANCE.updatePassword(json);
 		return execute.content;
 	}
 	@Operation(summary = "Criar email para login", description = "Quando ocorre? Logo após ser constatado que é primeiro acesso deste usuário e ele confirmar o e-mail. Para que serve? Serve para o usuário requisitar envio de token para o seu e-mail e ele poder usar esse token para cadastrar senha. "
@@ -229,7 +227,7 @@ public class ControllerJnLogin{
 		
 		CcpJsonRepresentation put = json.put("language", language);
 		
-		CcpJsonRepresentation createLoginToken = this.loginService.createLoginToken(put);
+		CcpJsonRepresentation createLoginToken = SyncServiceJnLogin.INSTANCE.createLoginToken(put);
 		
 		return createLoginToken.content;
 	}
