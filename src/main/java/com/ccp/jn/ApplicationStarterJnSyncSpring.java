@@ -45,16 +45,15 @@ public class ApplicationStarterJnSyncSpring {
 		CcpInstanceProvider<?> businessInstanceProvider = new CcpJnAsyncBusinessFactory();
 		CcpDependencyInjection.loadAllDependencies
 		(
-				localEnviroment ? CcpLocalInstances.cache.getLocalImplementation(businessInstanceProvider) : new CcpGcpMemCache(),
-				localEnviroment ? CcpLocalInstances.mensageriaSender.getLocalImplementation(businessInstanceProvider) : new CcpGcpPubSubMensageriaSender()
+				localEnviroment ? CcpLocalInstances.mensageriaSender.getLocalImplementation(businessInstanceProvider) : new CcpGcpPubSubMensageriaSender(),
+				localEnviroment ? CcpLocalInstances.bucket.getLocalImplementation(businessInstanceProvider) : new CcpGcpFileBucket(),
+				localEnviroment ? CcpLocalInstances.cache.getLocalImplementation(businessInstanceProvider) : new CcpGcpMemCache()
 				,new CcpMindrotPasswordHandler()
 				,new CcpElasticSearchDbRequest()
 				,new CcpGcpMainAuthentication()
 				,new CcpElasticSearchCrud()
 				,new CcpGsonJsonHandler()
 				,new CcpApacheMimeHttp() 
-				,new CcpGcpFileBucket()
-				,new CcpGcpMemCache()
 		);
 
 		CcpSyncExceptionHandler.genericExceptionHandler = new SyncBusinessJnNotifyError();
