@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.jn.sync.service.SyncServiceJnAsyncTask;
+import com.jn.commons.entities.JnEntityAsyncTask;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,8 +24,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "AsyncTask", description = "Tarefas assíncronas, aquelas que são executadas em segundo plano")
 public class ControllerJnAsyncTask {
 
-	private final SyncServiceJnAsyncTask injected = new SyncServiceJnAsyncTask();
-
 	@Operation(summary = "Obter tarefa status da tarefa assíncrona pelo id")
 	@GetMapping("/{asyncTaskId}")
 	@ApiResponses(value = { @ApiResponse(content = {
@@ -34,7 +32,7 @@ public class ControllerJnAsyncTask {
 					@Content(mediaType = "application/json", schema = @Schema(example = "{}")) }, responseCode = "404", description = "Status: 'Tarefa assíncrona não encontrada'"
 							), })
 	public Map<String, Object> getAsyncTaskStatusById(@PathVariable("asyncTaskId") String asyncTaskId) {
-		CcpJsonRepresentation execute = this.injected.apply(asyncTaskId);
+		CcpJsonRepresentation execute =  JnEntityAsyncTask.INSTANCE.getOneById(asyncTaskId);
 		return execute.content;
 	}
 
