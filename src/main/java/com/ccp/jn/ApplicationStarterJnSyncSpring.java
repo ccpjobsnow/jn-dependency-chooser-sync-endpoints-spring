@@ -25,6 +25,7 @@ import com.ccp.jn.async.business.factory.CcpJnAsyncBusinessFactory;
 import com.ccp.jn.controller.ControllerJnLogin;
 import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
 import com.ccp.local.testings.implementations.CcpLocalInstances;
+import com.ccp.local.testings.implementations.cache.CcpLocalCacheInstances;
 import com.ccp.web.servlet.filters.CcpPutSessionValuesAndExecuteTaskFilter;
 import com.ccp.web.servlet.filters.CcpValidEmailFilter;
 import com.ccp.web.spring.exceptions.handler.CcpSyncExceptionHandler;
@@ -48,7 +49,7 @@ public class ApplicationStarterJnSyncSpring {
 		(
 				localEnviroment ? CcpLocalInstances.mensageriaSender.getLocalImplementation(businessInstanceProvider) : new CcpGcpPubSubMensageriaSender(),
 				localEnviroment ? CcpLocalInstances.bucket.getLocalImplementation(businessInstanceProvider) : new CcpGcpFileBucket(),
-				localEnviroment ? CcpLocalInstances.cache.getLocalImplementation(businessInstanceProvider) : new CcpGcpMemCache()
+				localEnviroment ? CcpLocalCacheInstances.map.getLocalImplementation(businessInstanceProvider) : new CcpGcpMemCache()
 				,new CcpMindrotPasswordHandler()
 				,new CcpElasticSearchDbRequest()
 				,new CcpGcpMainAuthentication()
