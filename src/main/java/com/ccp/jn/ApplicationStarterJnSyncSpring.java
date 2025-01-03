@@ -66,7 +66,8 @@ public class ApplicationStarterJnSyncSpring {
 	@Bean
 	public FilterRegistrationBean<CcpValidEmailFilter> emailFilter() {
 		FilterRegistrationBean<CcpValidEmailFilter> filtro = new FilterRegistrationBean<>();
-		filtro.setFilter(CcpValidEmailFilter.INSTANCE);
+		CcpValidEmailFilter emailSyntaxFilter = CcpValidEmailFilter.getEmailSyntaxFilter("login/");
+		filtro.setFilter(emailSyntaxFilter);
 		filtro.addUrlPatterns("/login/*");
 		return filtro;
 	}
@@ -75,8 +76,7 @@ public class ApplicationStarterJnSyncSpring {
 	public FilterRegistrationBean<CcpPutSessionValuesAndExecuteTaskFilter> putSessionValuesFilter() {
 		FilterRegistrationBean<CcpPutSessionValuesAndExecuteTaskFilter> filtro = new FilterRegistrationBean<>();
 		filtro.setFilter(CcpPutSessionValuesAndExecuteTaskFilter.TASKLESS);
-		filtro.addUrlPatterns("/contact-us/*");
-		filtro.addUrlPatterns("/login/*");
+		filtro.addUrlPatterns("/contact-us/*", "/login/*");
 		return filtro;
 	}
 
