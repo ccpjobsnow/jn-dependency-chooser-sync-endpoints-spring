@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.jn.sync.service.SyncServiceJnLogin;
 import com.ccp.validation.CcpJsonFieldsValidations;
-import com.jn.commons.validations.JsonFieldsValidationJnLoginAnswers;
-import com.jn.commons.validations.JsonFieldsValidationJnPassword;
-import com.jn.commons.validations.JsonFieldsValidationJnPasswordAndToken;
+import com.jn.commons.json.validations.JnJsonValidationLoginAnswers;
+import com.jn.commons.json.validations.JnJsonValidationPassword;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -62,7 +61,7 @@ public class ControllerJnLogin{
 	@PostMapping
 	public Map<String, Object> executeLogin(@RequestBody Map<String, Object> body) {
 		
-		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPassword.class, body, "executeLogin");
+		CcpJsonFieldsValidations.validate(JnJsonValidationPassword.class, body, "executeLogin");
 
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
 		
@@ -148,7 +147,7 @@ public class ControllerJnLogin{
 			})
 	@PostMapping("/pre-registration")
 	public void saveAnswers(@RequestBody Map<String, Object> body) {
-		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnLoginAnswers.class, body, "savePreRegistration");
+		CcpJsonFieldsValidations.validate(JnJsonValidationLoginAnswers.class, body, "savePreRegistration");
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
 		SyncServiceJnLogin.INSTANCE.saveAnswers(json);
 	}
@@ -190,7 +189,6 @@ public class ControllerJnLogin{
 	@PostMapping("/password")
 	public Map<String, Object> updatePassword(@RequestBody Map<String, Object> body) {
 		
-		CcpJsonFieldsValidations.validate(JsonFieldsValidationJnPasswordAndToken.class, body, "updatePassword");
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
 		CcpJsonRepresentation execute = SyncServiceJnLogin.INSTANCE.updatePassword(json);
 		return execute.content;
