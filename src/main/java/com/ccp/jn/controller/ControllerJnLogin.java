@@ -190,7 +190,7 @@ public class ControllerJnLogin{
 	public Map<String, Object> updatePassword(@RequestBody Map<String, Object> body) {
 		
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
-		CcpJsonRepresentation execute = SyncServiceJnLogin.INSTANCE.updatePassword(json);
+		CcpJsonRepresentation execute = SyncServiceJnLogin.INSTANCE.savePassword(json);
 		return execute.content;
 	}
 	@Operation(summary = "Criar email para login", description = "Quando ocorre? Logo após ser constatado que é primeiro acesso deste usuário e ele confirmar o e-mail. Para que serve? Serve para o usuário requisitar envio de token para o seu e-mail e ele poder usar esse token para cadastrar senha. "
