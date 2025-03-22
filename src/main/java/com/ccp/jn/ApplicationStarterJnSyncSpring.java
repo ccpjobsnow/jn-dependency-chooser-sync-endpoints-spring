@@ -23,14 +23,14 @@ import com.ccp.implementations.mensageria.sender.gcp.pubsub.CcpGcpPubSubMensager
 import com.ccp.implementations.password.mindrot.CcpMindrotPasswordHandler;
 import com.ccp.jn.async.business.factory.CcpJnAsyncBusinessFactory;
 import com.ccp.jn.controller.ControllerJnLogin;
-import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
+import com.ccp.jn.sync.service.JnValidateSession;
 import com.ccp.local.testings.implementations.CcpLocalInstances;
 import com.ccp.local.testings.implementations.cache.CcpLocalCacheInstances;
 import com.ccp.web.servlet.filters.CcpPutSessionValuesAndExecuteTaskFilter;
 import com.ccp.web.servlet.filters.CcpValidEmailFilter;
 import com.ccp.web.spring.exceptions.handler.CcpSyncExceptionHandler;
 import com.jn.commons.utils.JnAsyncBusiness;
-import com.jn.commons.utils.JnValidateSession;
+import com.jn.sync.mensageria.JnSyncMensageriaSender;
 
 @EnableWebMvc
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})

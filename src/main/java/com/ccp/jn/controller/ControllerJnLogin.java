@@ -187,7 +187,7 @@ public class ControllerJnLogin{
 					@Content(schema = @Schema(example = "")) }, responseCode = "423", description = "Status: 'A senha não cumpre requisitos para ser uma senha forte' <br/><br/> Quando ocorre? Quando a combinação de caracteres digitadas pelo usuário, não cumpre os requisitos para ser considerada uma senha forte. <br/><br/>Qual comportamento esperado do front end? Redirecionar o usuário para tela de confirmação de senha fraca."), })
 	
 	@PostMapping("/password")
-	public Map<String, Object> updatePassword(@RequestBody Map<String, Object> body) {
+	public Map<String, Object> savePassword(@RequestBody Map<String, Object> body) {
 		
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
 		CcpJsonRepresentation execute = SyncServiceJnLogin.INSTANCE.savePassword(json);
