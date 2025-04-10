@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.jn.sync.service.JnSyncServiceLogin;
+import com.ccp.jn.commons.business.JnSyncServiceLogin;
 import com.ccp.validation.CcpJsonFieldsValidations;
 import com.jn.commons.entities.JnEntityLoginSessionValidation;
 import com.jn.commons.json.validations.JnJsonValidationLoginAnswers;
