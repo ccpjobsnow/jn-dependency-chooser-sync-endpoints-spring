@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.jn.commons.business.JnSyncServiceLogin;
 import com.ccp.validation.CcpJsonFieldsValidations;
-import com.jn.commons.entities.JnEntityLoginSessionValidation;
-import com.jn.commons.json.validations.JnJsonValidationLoginAnswers;
-import com.jn.commons.json.validations.JnJsonValidationPassword;
+import com.jn.entities.JnEntityLoginSessionValidation;
+import com.jn.json.fields.validations.JnJsonFieldsValidationLoginAnswers;
+import com.jn.json.fields.validations.JnJsonFieldsValidationPassword;
+import com.jn.services.JnServiceLogin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -63,13 +63,13 @@ public class ControllerJnLogin{
 	@PostMapping
 	public Map<String, Object> executeLogin(@RequestBody Map<String, Object> body) {
 		
-		CcpJsonFieldsValidations.validate(JnJsonValidationPassword.class, body, "executeLogin");
+		CcpJsonFieldsValidations.validate(JnJsonFieldsValidationPassword.class, body, "executeLogin");
 
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
 		
 		CcpJsonRepresentation putAll = json.putAll(body);
 		
-		CcpJsonRepresentation execute = JnSyncServiceLogin.INSTANCE.executeLogin(putAll);
+		CcpJsonRepresentation execute = JnServiceLogin.INSTANCE.executeLogin(putAll);
 		return execute.content;
 	}
 
@@ -97,7 +97,7 @@ public class ControllerJnLogin{
 		
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
 
-		CcpJsonRepresentation createLoginToken = JnSyncServiceLogin.INSTANCE.createLoginEmail(json);
+		CcpJsonRepresentation createLoginToken = JnServiceLogin.INSTANCE.createLoginEmail(json);
 		return createLoginToken.content;
 	}
 
@@ -115,7 +115,7 @@ public class ControllerJnLogin{
 	@RequestMapping(value = "/token", method = RequestMethod.HEAD)
 	public void existsLoginEmail(@RequestBody String body) {
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
-		JnSyncServiceLogin.INSTANCE.existsLoginEmail(json);
+		JnServiceLogin.INSTANCE.existsLoginEmail(json);
 	}
 
 	@Operation(summary = "Executar logout no sistema", description = "Quando ocorre? Quando por qualquer razão, o usuário quis não mais ter acesso a informações onde ele precisava estar devidamente identificado (logado) neste sistema. Para que serve? Serve para o usuário previamente se desassociar das próximas ações que serão feitas por este front end.")
@@ -129,7 +129,7 @@ public class ControllerJnLogin{
 	public void executeLogout(@RequestBody String body, @PathVariable("sessionToken") String sessionToken) {
 		CcpJsonRepresentation incompleteSessionValues = new CcpJsonRepresentation(body);
 		CcpJsonRepresentation completeSessionValues = incompleteSessionValues.put(JnEntityLoginSessionValidation.Fields.token.name(), sessionToken);
-		JnSyncServiceLogin.INSTANCE.executeLogout(completeSessionValues);
+		JnServiceLogin.INSTANCE.executeLogout(completeSessionValues);
 	}
 
 	@Operation(summary = "Salvar pré registro", description = "Quando ocorre? Logo após o usuário tentar executar login e o sistema constatar ausência de dados de pré registro. Para que serve? Serve para o usuário cadadtrar dados de pré registro.")
@@ -150,9 +150,9 @@ public class ControllerJnLogin{
 			})
 	@PostMapping("/pre-registration")
 	public void saveAnswers(@RequestBody Map<String, Object> body) {
-		CcpJsonFieldsValidations.validate(JnJsonValidationLoginAnswers.class, body, "savePreRegistration");
+		CcpJsonFieldsValidations.validate(JnJsonFieldsValidationLoginAnswers.class, body, "savePreRegistration");
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
-		JnSyncServiceLogin.INSTANCE.saveAnswers(json);
+		JnServiceLogin.INSTANCE.saveAnswers(json);
 	}
 
 	@Operation(summary = "Salvamento de senha", description = "Quando ocorre? Logo após o sistema constatar que o usuário está com senha bloqueada ou faltando, login já em uso ou se o usuário quer alterar senha. Para que serve? Serve para o usuário cadastrar senha de acesso no sistema. O parametro words hash é informado pelo front end (ou nao) por query parameter, se acaso ele for informado e estiver igual ao que o back end tem, o wordsHash não será devolvido na response desse método. Caso este parâmetro não for informado, ou se não for o mesmo que está no back end, então a lista do wordsHash é retornada juntamente com o novo wordsHash e o front deverá salvar no application storage (memória de longa duração do navegador)")
@@ -193,7 +193,7 @@ public class ControllerJnLogin{
 	public Map<String, Object> savePassword(@RequestBody Map<String, Object> body) {
 		
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
-		CcpJsonRepresentation execute = JnSyncServiceLogin.INSTANCE.savePassword(json);
+		CcpJsonRepresentation execute = JnServiceLogin.INSTANCE.savePassword(json);
 		return execute.content;
 	}
 	@Operation(summary = "Criar email para login", description = "Quando ocorre? Logo após ser constatado que é primeiro acesso deste usuário e ele confirmar o e-mail. Para que serve? Serve para o usuário requisitar envio de token para o seu e-mail e ele poder usar esse token para cadastrar senha. "
@@ -225,7 +225,7 @@ public class ControllerJnLogin{
 		
 		CcpJsonRepresentation json = new CcpJsonRepresentation(body);
 		
-		CcpJsonRepresentation createLoginToken = JnSyncServiceLogin.INSTANCE.createLoginToken(json);
+		CcpJsonRepresentation createLoginToken = JnServiceLogin.INSTANCE.createLoginToken(json);
 		
 		return createLoginToken.content;
 	}

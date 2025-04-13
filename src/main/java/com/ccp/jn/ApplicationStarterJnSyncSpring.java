@@ -20,15 +20,15 @@ import com.ccp.implementations.json.gson.CcpGsonJsonHandler;
 import com.ccp.implementations.main.authentication.gcp.oauth.CcpGcpMainAuthentication;
 import com.ccp.implementations.mensageria.sender.gcp.pubsub.CcpGcpPubSubMensageriaSender;
 import com.ccp.implementations.password.mindrot.CcpMindrotPasswordHandler;
-import com.ccp.jn.commons.business.JnAsyncBusinessNotifyError;
-import com.ccp.jn.commons.business.JnValidateSession;
-import com.ccp.jn.commons.mensageria.JnMensageriaSender;
 import com.ccp.jn.controller.ControllerJnLogin;
 import com.ccp.local.testings.implementations.CcpLocalInstances;
 import com.ccp.local.testings.implementations.cache.CcpLocalCacheInstances;
 import com.ccp.web.servlet.filters.CcpPutSessionValuesAndExecuteTaskFilter;
 import com.ccp.web.servlet.filters.CcpValidEmailFilter;
 import com.ccp.web.spring.exceptions.handler.CcpSyncExceptionHandler;
+import com.jn.business.JnBusinessNotifyError;
+import com.jn.business.JnBusinessValidateSession;
+import com.jn.mensageria.JnMensageriaSender;
 
 @EnableWebMvc
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
@@ -55,7 +55,7 @@ public class ApplicationStarterJnSyncSpring {
 				,new CcpApacheMimeHttp() 
 		);
 
-		CcpSyncExceptionHandler.genericExceptionHandler = new JnMensageriaSender(JnAsyncBusinessNotifyError.INSTANCE);
+		CcpSyncExceptionHandler.genericExceptionHandler = new JnMensageriaSender(JnBusinessNotifyError.INSTANCE);
 
 		SpringApplication.run(ApplicationStarterJnSyncSpring.class, args);
 	}
@@ -80,7 +80,7 @@ public class ApplicationStarterJnSyncSpring {
 	@Bean
 	public FilterRegistrationBean<CcpPutSessionValuesAndExecuteTaskFilter> validateSessionFilter() {
 		FilterRegistrationBean<CcpPutSessionValuesAndExecuteTaskFilter> filtro = new FilterRegistrationBean<>();
-		CcpPutSessionValuesAndExecuteTaskFilter filter = new CcpPutSessionValuesAndExecuteTaskFilter(JnValidateSession.INSTANCE);
+		CcpPutSessionValuesAndExecuteTaskFilter filter = new CcpPutSessionValuesAndExecuteTaskFilter(JnBusinessValidateSession.INSTANCE);
 		filtro.setFilter(filter);
 		filtro.addUrlPatterns("/contact-us/*");
 		return filtro;
